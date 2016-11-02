@@ -1,0 +1,28 @@
+IRC.pm POD
+t coverage
+dzil v1.0 to CPAN
+
+Store.pm -> Store::YAML.pm
+Store::SQLite.pm
+
+funcs:
+convert:
+maths:
+
+::Join
+::Seen
+::Infobot
+::Karma
+
+load plugins set with ":name"
+
+morning: # greeting
+
+::Title
+::WWWShorten
+spell
+dict/thes
+message: | ::Notes
+
+::Retort | excuse | zippy
+::Aviation
