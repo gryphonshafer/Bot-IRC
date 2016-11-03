@@ -13,19 +13,20 @@ sub init {
 sub new {
     my ( $class, $bot ) = @_;
     my $self = bless( {}, $class );
-    $self->file( $bot->{store} || 'store.yaml' );
+
+    $self->{file} = $bot->{vars}{store} || 'store.yaml';
+
+    eval {
+        unless ( -f $self->{file} ) {
+            DumpFile( $file, {} );
+        }
+        else {
+            LoadFile( $self->{file} );
+        }
+    };
+    die qq{Unable to use "$self->{file}" for YAML storage in the Bot::IRC::Store plugin\n} if ($@);
+
     return $self;
-}
-
-sub file {
-    my ( $self, $file ) = @_;
-
-    if ( defined $file ) {
-        DumpFile( $file, {} ) unless ( -f $file );
-        $self->{file} = $file;
-    }
-
-    return $self->{file};
 }
 
 sub get {
@@ -44,3 +45,44 @@ sub set {
 }
 
 1;
+__END__
+=pod
+
+=head1 SYNOPSIS
+
+    use Bot::IRC;
+
+    Bot::IRC->new(
+        connect => { server => 'irc.perl.org' },
+        plugins => ['Store'],
+        vars    => { store => 'bot.yaml' },
+    )->run;
+
+=head1 DESCRIPTION
+
+This L<Bot::IRC> plugin provides a very simple persistent storage mechanism. It
+stores all its data in a single YAML file. This makes things easy when you're
+dealing with a small amount of data, but performance will get increasingly bad
+as data increases. Consequently, you should probably not use this module
+specifically in a long-running production bot. Instead, use some Storage
+pseudo sub-class like L<Bot::IRC::Storage::SQLite>.
+
+=head1 EXAMPLE USE
+
+This plugin adds a single sub to the bot object called C<storage()>. Calling it
+will return a storage object which itself provides C<get()> and C<set()>
+methods. These operate just like you would expect.
+
+    $bot->storage->set( user => { nick => 'gryphon', score => 42 } );
+    my $score = $bot->storage->set('user')->{score};
+
+=head1 PSEUDO SUB-CLASSES
+
+Pseudo sub-classes of Bot::IRC::Storage should implement the same interface
+as this plugin. Also, they should call C<register()> to ensure plugins that
+require storage don't clobber the C<storage()> of whatever pseudo sub-class
+is used.
+
+    $bot->register('Bot::IRC::Store');
+
+=cut
