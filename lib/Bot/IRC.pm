@@ -1,5 +1,5 @@
 package Bot::IRC;
-# ABSTRACT: Wait before doing by label contoller singleton
+# ABSTRACT: Yet Another IRC Bot
 
 use strict;
 use warnings;
@@ -232,11 +232,14 @@ sub load {
                 $namespace = __PACKAGE__ . "::$plugin";
             }
             else {
+                croak($@) unless ( $@ =~ /^Can't locate/ );
+
                 eval "require $plugin";
                 unless ($@) {
                     $namespace = $plugin;
                 }
                 else {
+                    croak($@) unless ( $@ =~ /^Can't locate/ );
                     croak("Unable to find or properly load $plugin");
                 }
             }
@@ -292,7 +295,7 @@ sub hook {
 
 sub hooks {
     my $self = shift;
-    $self->hook( @{$_} ) for (@_);
+    $self->hook(@$_) for (@_);
     return $self;
 }
 
@@ -314,7 +317,7 @@ sub tick {
 
 sub ticks {
     my $self = shift;
-    $self->ticks( @{$_} ) for (@_);
+    $self->tick(@$_) for (@_);
     return $self;
 }
 
@@ -519,7 +522,7 @@ C<join> can be either a string or an arrayref of strings representing channels
 to join after connnecting. C<ssl> is a true/false setting for whether to
 connect to the server over SSL.
 
-Read more about plugins below for more information about C<plugins> and C<vars.
+Read more about plugins below for more information about C<plugins> and C<vars>.
 Consult L<Daemon::Device> and L<Daemon::Control> for more details about C<spawn>
 and C<daemon>.
 

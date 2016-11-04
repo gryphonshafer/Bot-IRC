@@ -1,7 +1,12 @@
 package Bot::IRC::Store;
+# ABSTRACT: Bot::IRC Persistent Data Storage
+
 use strict;
 use warnings;
+
 use YAML::XS qw( LoadFile DumpFile );
+
+# VERSION
 
 sub init {
     my ($bot) = @_;
@@ -18,7 +23,7 @@ sub new {
 
     eval {
         unless ( -f $self->{file} ) {
-            DumpFile( $file, {} );
+            DumpFile( $self->{file}, {} );
         }
         else {
             LoadFile( $self->{file} );
@@ -73,7 +78,12 @@ This plugin adds a single sub to the bot object called C<storage()>. Calling it
 will return a storage object which itself provides C<get()> and C<set()>
 methods. These operate just like you would expect.
 
+=head2 set
+
     $bot->storage->set( user => { nick => 'gryphon', score => 42 } );
+
+=head2 get
+
     my $score = $bot->storage->set('user')->{score};
 
 =head1 PSEUDO SUB-CLASSES
@@ -84,5 +94,7 @@ require storage don't clobber the C<storage()> of whatever pseudo sub-class
 is used.
 
     $bot->register('Bot::IRC::Store');
+
+=for Pod::Coverage init new
 
 =cut

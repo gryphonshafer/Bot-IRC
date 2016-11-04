@@ -1,6 +1,3 @@
-t coverage
-dzil v1.0 to CPAN
-
 Store::SQLite
 
 funcs:
