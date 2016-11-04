@@ -227,10 +227,10 @@ sub load {
         unless ( ref $plugin ) {
             my $namespace;
             for (
-                __PACKAGE__ . "::$plugin",
-                __PACKAGE__ . "::X::$plugin",
-                __PACKAGE__ . "::Y::$plugin",
                 $plugin,
+                __PACKAGE__ . "::Y::$plugin",
+                __PACKAGE__ . "::X::$plugin",
+                __PACKAGE__ . "::$plugin",
             ) {
                 eval "require $_";
                 unless ($@) {
@@ -580,7 +580,8 @@ An unenforced convention for public/shared plugins is to have non-core plugins
 (all plugins not provided directly by this CPAN library) subclasses of
 "Bot::IRC::X". For private/unshared plugins, you can specify whatever name you
 want, but maybe consider something like "Bot::IRC::Y". Plugins set in the X or
-Y subclass namespaces will get matched just like core plugins.
+Y subclass namespaces will get matched just like core plugins. "Y" plugins will
+have precedence over "X" which in turn will have precedence over core.
 
 If you need to allow for variables to get passed to your plugins, an unenforced
 convention is to do so via the C<vars> key to C<new()>.
