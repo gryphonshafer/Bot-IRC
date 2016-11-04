@@ -12,4 +12,3 @@ Dict/Thes
 Message/Notes
 Retort/Excuse
 Aviation
-load all core plugins set with ":all"

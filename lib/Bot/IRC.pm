@@ -222,6 +222,11 @@ sub load {
 
     for my $plugin (@_) {
         unless ( ref $plugin ) {
+            if ( $plugin =~ /^:core$/i ) {
+                $self->load( qw( Join ) );
+                next;
+            }
+
             my $namespace;
             for (
                 $plugin,
@@ -629,6 +634,10 @@ have precedence over "X" which in turn will have precedence over core.
 
 If you need to allow for variables to get passed to your plugins, an unenforced
 convention is to do so via the C<vars> key to C<new()>.
+
+If you specify ":core" as a plugin name, it will be expanded to load all the
+core plugins. (Core plugins are all the plugins that are bundled and
+distributed with L<Bot::IRC>.)
 
 =head1 PLUGIN METHODS
 
