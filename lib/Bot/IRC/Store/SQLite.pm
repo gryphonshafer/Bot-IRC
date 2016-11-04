@@ -46,11 +46,15 @@ sub get {
     my $namespace = ( caller() )[0];
 
     my $sth = $self->{dbh}->prepare(q{
-        INSERT INTO bot_store ( namespace, key, value ) VALUES ( ?, ?, ? )
+        SELECT value FROM bot_store WHERE namespace = ? AND key = ?
     });
     $sth->execute( $namespace, $key );
     my $value = $sth->fetchrow_array;
-    $value = $self->{json}->decode($value) if ($value);
+
+    if ($value) {
+        $value = $self->{json}->decode($value) || undef;
+        $value = $value->{value} if ( ref $value eq 'HASH' and exists $value->{value} );
+    }
 
     return $value;
 }

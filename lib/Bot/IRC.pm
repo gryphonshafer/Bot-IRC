@@ -108,13 +108,7 @@ sub _parent {
                 $self->nick( $self->{nick} . '_' );
             }
             elsif ( $line =~ /^:\S+\s001\s/ ) {
-                if ( $self->{connect}{join} ) {
-                    $self->say("JOIN $_") for (
-                        ( ref $self->{connect}{join} eq 'ARRAY' )
-                            ? @{ $self->{connect}{join} }
-                            : $self->{connect}{join}
-                    );
-                }
+                $self->join;
                 $session->{established} = 1;
                 alarm 1 if ( @{ $self->{ticks} } );
             }
@@ -150,6 +144,9 @@ sub _on_message {
         }
         elsif ( $line =~ /^:(\S+?)!~?(\S+?)@(\S+?)\s(\S+)\s(\S+)\s(.*)/ ) {
             @{ $self->{in} }{ qw( nick user server command forum text ) } = ( $1, $2, $3, $4, $5, $6 );
+        }
+        elsif ( $line =~ /^:(\S+?)!~?(\S+?)@(\S+?)\s(\S+)\s(\S+)/ ) {
+            @{ $self->{in} }{ qw( nick user server command forum ) } = ( $1, $2, $3, $4, $5, $6 );
         }
         elsif ( $line =~ /^(PING)\s(.+)/ ) {
             @{ $self->{in} }{ qw( command text ) } = ( $1, $2 );
@@ -378,6 +375,53 @@ sub nick {
         $self->say("NICK $self->{nick}");
     }
     return $self->{nick};
+}
+
+sub join {
+    my $self = shift;
+
+    my @join = @{ ( $self->can('store') ) ? $self->store->get('join') || [] : [] };
+
+    unless (@_) {
+        if (@join) {
+            $self->say("JOIN $_") for (@join);
+        }
+        elsif ( $self->{connect}{join} ) {
+            for (
+                ( ref $self->{connect}{join} eq 'ARRAY' )
+                    ? @{ $self->{connect}{join} }
+                    : $self->{connect}{join}
+            ) {
+                push( @join, $_ );
+                $self->say("JOIN $_");
+            }
+        }
+    }
+    else {
+        for (@_) {
+            push( @join, $_ );
+            $self->say("JOIN $_");
+        }
+    }
+
+    $self->store->set( 'join' => \@join ) if ( $self->can('store') );
+
+    return $self;
+}
+
+sub part {
+    my $self = shift;
+
+    my @join = @{ ( $self->can('store') ) ? $self->store->get('join') || [] : [] };
+
+    for my $channel (@_) {
+        $self->say("PART $channel");
+        @join = grep { $_ ne $channel } @join;
+    }
+
+    $self->store->set( 'join' => \@join ) if ( $self->can('store') );
+
+    return $self;
 }
 
 1;
@@ -821,6 +865,24 @@ string that's a properly IRC message.
 
 Use C<nick> to change the bot's nick. If the nick is already in use, the bot
 will try appending "_" to it until it finds an open nick.
+
+=head2 join
+
+Use C<join()> to join channels.
+
+    $bot->join('#help');
+
+If some sort of persistent storage plugin is loaded, the bot will remember the
+channels it has joined or parted and use that as it's initial join on restart.
+
+=head2 part
+
+Use C<part()> to part channels.
+
+    $bot->part('#help');
+
+If some sort of persistent storage plugin is loaded, the bot will remember the
+channels it has joined or parted and use that as it's initial join on restart.
 
 =head1 SEE ALSO
 

@@ -1,23 +1,15 @@
-Store::SQLite
-
-funcs:
-convert:
-maths:
-
-::Join
-::Seen
-::Infobot
-::Karma
-
-load plugins set with ":name"
-
-morning: # greeting
-
-::Title
-::WWWShorten
-spell
-dict/thes
-message: | ::Notes
-
-::Retort | excuse | zippy
-::Aviation
+Funcs
+Convert
+Maths
+Seen
+Infobot
+Karma
+Morning/Greeting
+Title
+WWW-Shorten
+Spell
+Dict/Thes
+Message/Notes
+Retort/Excuse
+Aviation
+load all core plugins set with ":all"
