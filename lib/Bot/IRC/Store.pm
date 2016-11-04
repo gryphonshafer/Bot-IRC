@@ -1,5 +1,5 @@
 package Bot::IRC::Store;
-# ABSTRACT: Bot::IRC Persistent Data Storage
+# ABSTRACT: Bot::IRC Persistent Data Storage with YAML
 
 use strict;
 use warnings;
@@ -70,27 +70,27 @@ stores all its data in a single YAML file. This makes things easy when you're
 dealing with a small amount of data, but performance will get increasingly bad
 as data increases. Consequently, you should probably not use this module
 specifically in a long-running production bot. Instead, use some Storage
-pseudo sub-class like L<Bot::IRC::Storage::SQLite>.
+pseudo sub-class like L<Bot::IRC::Store::SQLite>.
 
 =head1 EXAMPLE USE
 
-This plugin adds a single sub to the bot object called C<storage()>. Calling it
+This plugin adds a single sub to the bot object called C<store()>. Calling it
 will return a storage object which itself provides C<get()> and C<set()>
 methods. These operate just like you would expect.
 
 =head2 set
 
-    $bot->storage->set( user => { nick => 'gryphon', score => 42 } );
+    $bot->store->set( user => { nick => 'gryphon', score => 42 } );
 
 =head2 get
 
-    my $score = $bot->storage->set('user')->{score};
+    my $score = $bot->store->set('user')->{score};
 
 =head1 PSEUDO SUB-CLASSES
 
-Pseudo sub-classes of Bot::IRC::Storage should implement the same interface
+Pseudo sub-classes of Bot::IRC::Store should implement the same interface
 as this plugin. Also, they should call C<register()> to ensure plugins that
-require storage don't clobber the C<storage()> of whatever pseudo sub-class
+require storage don't clobber the C<store()> of whatever pseudo sub-class
 is used.
 
     $bot->register('Bot::IRC::Store');
