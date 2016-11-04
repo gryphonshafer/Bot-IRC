@@ -18,9 +18,12 @@ my %WriteMakefileArgs = (
   "NAME" => "Bot::IRC",
   "PREREQ_PM" => {
     "Carp" => 0,
+    "DBD::SQLite" => 0,
+    "DBI" => 0,
     "Daemon::Device" => 0,
     "IO::Socket" => 0,
     "IO::Socket::SSL" => 0,
+    "JSON::XS" => 0,
     "Time::Crontab" => 0,
     "YAML::XS" => 0,
     "strict" => 0,
@@ -38,7 +41,7 @@ my %WriteMakefileArgs = (
     "blib" => "1.01",
     "constant" => 0
   },
-  "VERSION" => "1.01",
+  "VERSION" => "1.02",
   "test" => {
     "TESTS" => "t/*.t"
   }
@@ -47,12 +50,15 @@ my %WriteMakefileArgs = (
 
 my %FallbackPrereqs = (
   "Carp" => 0,
+  "DBD::SQLite" => 0,
+  "DBI" => 0,
   "Daemon::Device" => 0,
   "File::Spec" => 0,
   "IO::Handle" => 0,
   "IO::Socket" => 0,
   "IO::Socket::SSL" => 0,
   "IPC::Open3" => 0,
+  "JSON::XS" => 0,
   "Test::Lib" => 0,
   "Test::MockModule" => 0,
   "Test::More" => 0,

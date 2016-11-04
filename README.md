@@ -4,7 +4,7 @@ Bot::IRC - Yet Another IRC Bot
 
 # VERSION
 
-version 1.01
+version 1.02
 
 [![Build Status](https://travis-ci.org/gryphonshafer/Bot-IRC.svg)](https://travis-ci.org/gryphonshafer/Bot-IRC)
 [![Coverage Status](https://coveralls.io/repos/gryphonshafer/Bot-IRC/badge.png)](https://coveralls.io/r/gryphonshafer/Bot-IRC)
@@ -187,18 +187,25 @@ provided as a sub-class of itself. Then it will look for the plugin under the
 assumption you provided it's full name.
 
     plugins => [
-        'Store',               # matches "Bot::IRC::Store"
-        'Bot::IRC::X::Random', # matches "Bot::IRC::X::Random"
-        'My::Own::Plugin',     # matches "My::Own::Plugin"
+        'Store',           # matches "Bot::IRC::Store"
+        'Random',          # matches "Bot::IRC::X::Random"
+        'Thing',           # matches "Bot::IRC::Y::Thing"
+        'My::Own::Plugin', # matches "My::Own::Plugin"
     ],
 
 An unenforced convention for public/shared plugins is to have non-core plugins
 (all plugins not provided directly by this CPAN library) subclasses of
 "Bot::IRC::X". For private/unshared plugins, you can specify whatever name you
-want, but maybe consider something like "Bot::IRC::Y".
+want, but maybe consider something like "Bot::IRC::Y". Plugins set in the X or
+Y subclass namespaces will get matched just like core plugins. "Y" plugins will
+have precedence over "X" which in turn will have precedence over core.
 
 If you need to allow for variables to get passed to your plugins, an unenforced
 convention is to do so via the `vars` key to `new()`.
+
+If you specify ":core" as a plugin name, it will be expanded to load all the
+core plugins. (Core plugins are all the plugins that are bundled and
+distributed with [Bot::IRC](https://metacpan.org/pod/Bot::IRC).)
 
 # PLUGIN METHODS
 
@@ -434,6 +441,24 @@ string that's a properly IRC message.
 
 Use `nick` to change the bot's nick. If the nick is already in use, the bot
 will try appending "\_" to it until it finds an open nick.
+
+## join
+
+Use `join()` to join channels.
+
+    $bot->join('#help');
+
+If some sort of persistent storage plugin is loaded, the bot will remember the
+channels it has joined or parted and use that as it's initial join on restart.
+
+## part
+
+Use `part()` to part channels.
+
+    $bot->part('#help');
+
+If some sort of persistent storage plugin is loaded, the bot will remember the
+channels it has joined or parted and use that as it's initial join on restart.
 
 # SEE ALSO
 

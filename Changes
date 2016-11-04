@@ -1,6 +1,11 @@
 Revision history for Bot::IRC
 
 {{$NEXT}}
+        - Load all core plugins set with ":core"
+        - Join plugin
+        - Store::SQLite plugin
+        - Change precedence order of loading plugins to favor private and extension overrides
+        - Quick matching of ::X:: and ::Y:: sub-namespace plugins
 
 1.01      2016-11-03 17:08:15-07:00 America/Los_Angeles
         - First version, released on an unsuspecting world
