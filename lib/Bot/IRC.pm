@@ -226,23 +226,22 @@ sub load {
     for my $plugin (@_) {
         unless ( ref $plugin ) {
             my $namespace;
-
-            eval 'require ' . __PACKAGE__ . "::$plugin";
-            unless ($@) {
-                $namespace = __PACKAGE__ . "::$plugin";
-            }
-            else {
-                croak($@) unless ( $@ =~ /^Can't locate/ );
-
-                eval "require $plugin";
+            for (
+                __PACKAGE__ . "::$plugin",
+                __PACKAGE__ . "::X::$plugin",
+                __PACKAGE__ . "::Y::$plugin",
+                $plugin,
+            ) {
+                eval "require $_";
                 unless ($@) {
-                    $namespace = $plugin;
+                    $namespace = $_;
+                    last;
                 }
                 else {
                     croak($@) unless ( $@ =~ /^Can't locate/ );
-                    croak("Unable to find or properly load $plugin");
                 }
             }
+            croak("Unable to find or properly load $plugin") unless ($namespace);
 
             next if ( $self->{loaded}{$namespace} );
 
@@ -571,15 +570,17 @@ provided as a sub-class of itself. Then it will look for the plugin under the
 assumption you provided it's full name.
 
     plugins => [
-        'Store',               # matches "Bot::IRC::Store"
-        'Bot::IRC::X::Random', # matches "Bot::IRC::X::Random"
-        'My::Own::Plugin',     # matches "My::Own::Plugin"
+        'Store',           # matches "Bot::IRC::Store"
+        'Random',          # matches "Bot::IRC::X::Random"
+        'Thing',           # matches "Bot::IRC::Y::Thing"
+        'My::Own::Plugin', # matches "My::Own::Plugin"
     ],
 
 An unenforced convention for public/shared plugins is to have non-core plugins
 (all plugins not provided directly by this CPAN library) subclasses of
 "Bot::IRC::X". For private/unshared plugins, you can specify whatever name you
-want, but maybe consider something like "Bot::IRC::Y".
+want, but maybe consider something like "Bot::IRC::Y". Plugins set in the X or
+Y subclass namespaces will get matched just like core plugins.
 
 If you need to allow for variables to get passed to your plugins, an unenforced
 convention is to do so via the C<vars> key to C<new()>.

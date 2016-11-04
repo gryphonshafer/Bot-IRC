@@ -4,9 +4,9 @@ use warnings;
 use Test::Most;
 use Test::MockModule;
 
-my $socket = Test::MockModule->new('YAML::XS');
-$socket->mock( LoadFile => sub { return { stuff => 'things' } } );
-$socket->mock( DumpFile => sub {} );
+my $store = Test::MockModule->new('Bot::IRC::Store');
+$store->mock( LoadFile => sub { return { stuff => 'things' } } );
+$store->mock( DumpFile => sub {} );
 
 use constant MODULE => 'Bot::IRC::Store';
 
