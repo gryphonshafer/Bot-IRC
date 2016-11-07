@@ -46,8 +46,60 @@ sub init {
         },
     );
 
+    $bot->hook(
+        {
+            to_me => 1,
+            text  => qr/\bchannels\b/i,
+        },
+        sub {
+            my ($bot)    = @_;
+            my @channels = @{ $bot->store->get('join') || [] };
+
+            $bot->reply(
+                (@channels)
+                    ? 'I am currently in the following channels: ' .
+                        $bot->list( ', ', 'and', sort { $a cmp $b } @channels ) . '.'
+                    : 'I am currently not in any channels.'
+            );
+        },
+    );
+
     $bot->helps(
-        join => 'Join and part channels. Usage: join <channel>, part <channel>.',
+        join => 'Join and part channels. Usage: join <channel>, part <channel>, channels.',
+    );
+
+    {
+        no strict 'refs';
+        for ( qw( join part ) ) {
+            my $name = ref($bot) . '::' . $_;
+            *{ $name . '_super' } = *$name{CODE};
+        }
+    }
+
+    $bot->subs(
+        join => sub {
+            my $bot      = shift;
+            my @channels = @_;
+            my %joined   = map { $_ => 1 } @{ $bot->store->get('join') || [] };
+            @channels    = keys %joined unless (@channels);
+
+            $bot->join_super(@channels);
+
+            $joined{$_} = 1 for (@channels);
+            $bot->store->set( 'join' => [ keys %joined ] );
+        },
+    );
+
+    $bot->subs(
+        part => sub {
+            my $bot    = shift;
+            my %joined = map { $_ => 1 } @{ $bot->store->get('join') || [] };
+
+            $bot->part_super(@_);
+
+            delete $joined{$_} for (@_);
+            $bot->store->set( 'join' => [ keys %joined ] );
+        },
     );
 }
 

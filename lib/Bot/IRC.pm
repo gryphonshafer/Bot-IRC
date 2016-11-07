@@ -153,7 +153,7 @@ sub _on_message {
             $self->say( 'PONG ' . $self->{in}{text} );
             next;
         }
-        elsif ( $line =~ /^:(\S+)\s(NOTICE|\d+)\s(\S+)\s(.*)/ ) {
+        elsif ( $line =~ /^:(\S+)\s([A-Z]+|\d+)\s(\S+)\s(.*)/ ) {
             @{ $self->{in} }{ qw( source command forum text ) } = ( $1, $2, $3, $4 );
         }
         elsif ( $line =~ /^(ERROR)\s/ ) {
@@ -178,7 +178,7 @@ sub _on_message {
                 $self->reply(
                     ( ( $self->{in}{private} ) ? '' : $self->{in}{nick} . ': ' ) .
                     'Ask me for help with "help topic" where the topic is one of the following: ' .
-                    join( ', ', sort keys %{ $self->{helps} } ) . '.'
+                    $self->list( ', ', 'and', sort keys %{ $self->{helps} } ) . '.'
                 );
                 next;
             }
@@ -322,8 +322,10 @@ sub subs {
 
     for my $name ( keys %$subs ) {
         no strict 'refs';
+        no warnings 'redefine';
         *{ __PACKAGE__ . '::' . $name } = $subs->{$name};
     }
+
     return $self;
 }
 
@@ -379,31 +381,15 @@ sub nick {
 sub join {
     my $self = shift;
 
-    my @join = @{ ( $self->can('store') ) ? $self->store->get('join') || [] : [] };
-
-    unless (@_) {
-        if (@join) {
-            $self->say("JOIN $_") for (@join);
-        }
-        elsif ( $self->{connect}{join} ) {
-            for (
+    $self->say("JOIN $_") for (
+        ( not @_ and $self->{connect}{join} )
+            ? (
                 ( ref $self->{connect}{join} eq 'ARRAY' )
                     ? @{ $self->{connect}{join} }
                     : $self->{connect}{join}
-            ) {
-                push( @join, $_ );
-                $self->say("JOIN $_");
-            }
-        }
-    }
-    else {
-        for (@_) {
-            push( @join, $_ );
-            $self->say("JOIN $_");
-        }
-    }
-
-    $self->store->set( 'join' => \@join ) if ( $self->can('store') );
+            )
+            : @_
+    );
 
     return $self;
 }
@@ -411,16 +397,24 @@ sub join {
 sub part {
     my $self = shift;
 
-    my @join = @{ ( $self->can('store') ) ? $self->store->get('join') || [] : [] };
-
-    for my $channel (@_) {
-        $self->say("PART $channel");
-        @join = grep { $_ ne $channel } @join;
-    }
-
-    $self->store->set( 'join' => \@join ) if ( $self->can('store') );
+    $self->say("PART $_") for (@_);
 
     return $self;
+}
+
+sub list {
+    my ( $self, $separator, $conjunction ) = ( shift, shift, shift );
+    my @list = @_;
+
+    if ( @list > 2 ) {
+        return CORE::join( $separator, @list[ 0 .. @list - 2 ], $conjunction . ' ' . $list[-1] );
+    }
+    elsif ( @list > 1 ) {
+        return $list[0] . ' ' . $conjunction . ' ' . $list[1];
+    }
+    else {
+        return $list[0];
+    }
 }
 
 1;
@@ -883,6 +877,23 @@ Use C<part()> to part channels.
 
 If some sort of persistent storage plugin is loaded, the bot will remember the
 channels it has joined or parted and use that as it's initial join on restart.
+
+=head1 RANDOM HELPFUL METHODS
+
+The following are random additional methods that might be helpful in your
+plugins.
+
+=head2 list
+
+This method is a simple string method that takes a list and crafts it for
+readability. It expects a separator string, a final item conjunction string,
+and a list of items.
+
+    $bot->list( ', ', 'and', 'Alpha', 'Beta', 'Delta', 'Gamma' );
+    # returns "Alpha, Beta, Delta, and Gamma"
+
+    $bot->list( ', ', 'and', 'Alpha', 'Beta' );
+    # returns "Alpha and Beta"
 
 =head1 SEE ALSO
 

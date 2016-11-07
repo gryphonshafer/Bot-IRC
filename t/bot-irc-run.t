@@ -74,4 +74,16 @@ stdout_is(
     '$bot->nick',
 );
 
+is(
+    $bot->list( ', ', 'and', 'Alpha', 'Beta', 'Delta', 'Gamma' ),
+    'Alpha, Beta, Delta, and Gamma',
+    '$bot->list long',
+);
+
+is(
+    $bot->list( ', ', 'and', 'Alpha', 'Beta' ),
+    'Alpha and Beta',
+    '$bot->list short',
+);
+
 done_testing;
