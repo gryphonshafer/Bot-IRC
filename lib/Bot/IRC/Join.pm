@@ -1,5 +1,5 @@
 package Bot::IRC::Join;
-# ABSTRACT: Bot::IRC Join and Part Channels; Remember State
+# ABSTRACT: Bot::IRC join and part channels and remember channels state
 
 use strict;
 use warnings;
@@ -80,25 +80,35 @@ sub init {
         join => sub {
             my $bot      = shift;
             my @channels = @_;
-            my %joined   = map { $_ => 1 } @{ $bot->store->get('join') || [] };
-            @channels    = keys %joined unless (@channels);
+            my %channels = map { $_ => 1 } @{ $bot->store->get('channels') || [] };
+            @channels    = keys %channels unless (@channels);
+
+            if ( not @channels and $bot->{connect}{join} ) {
+                @channels = ( ref $bot->{connect}{join} eq 'ARRAY' )
+                    ? @{ $bot->{connect}{join} }
+                    : $bot->{connect}{join}
+            }
 
             $bot->join_super(@channels);
 
-            $joined{$_} = 1 for (@channels);
-            $bot->store->set( 'join' => [ keys %joined ] );
+            $channels{$_} = 1 for (@channels);
+            $bot->store->set( 'channels' => [ keys %channels ] );
+
+            return $bot;
         },
     );
 
     $bot->subs(
         part => sub {
             my $bot    = shift;
-            my %joined = map { $_ => 1 } @{ $bot->store->get('join') || [] };
+            my %channels = map { $_ => 1 } @{ $bot->store->get('channels') || [] };
 
             $bot->part_super(@_);
 
-            delete $joined{$_} for (@_);
-            $bot->store->set( 'join' => [ keys %joined ] );
+            delete $channels{$_} for (@_);
+            $bot->store->set( 'channels' => [ keys %channels ] );
+
+            return $bot;
         },
     );
 }
@@ -121,8 +131,13 @@ __END__
 This L<Bot::IRC> plugin handles messages instructing the bot to join or
 part channels. Tell the bot to join and part channels as such:
 
-    join <channel>
-    part <channel>
+=head2 join <channel>
+
+Join a given channel.
+
+=head2 part <channel>
+
+Depart a given channel.
 
 =for Pod::Coverage init
 
