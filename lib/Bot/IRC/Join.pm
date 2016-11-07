@@ -23,7 +23,7 @@ sub init {
                 $bot->join( $m->{channel} );
             }
             else {
-                $bot->reply( '"' . $m->{channel} . q{" doesn't appear to be a channel I can join.} );
+                $bot->reply_to( '"' . $m->{channel} . q{" doesn't appear to be a channel I can join.} );
             }
         },
     );
@@ -37,11 +37,11 @@ sub init {
             my ( $bot, $in, $m ) = @_;
 
             if ( $m->{channel} =~ /^#\w+$/ ) {
-                $bot->reply( 'I will depart: ' . $m->{channel} );
+                $bot->reply_to( 'I will depart: ' . $m->{channel} );
                 $bot->part( $m->{channel} );
             }
             else {
-                $bot->reply( '"' . $m->{channel} . q{" doesn't appear to be a valid channel name.} );
+                $bot->reply_to( '"' . $m->{channel} . q{" doesn't appear to be a valid channel name.} );
             }
         },
     );
@@ -55,7 +55,7 @@ sub init {
             my ($bot)    = @_;
             my @channels = @{ $bot->store->get('join') || [] };
 
-            $bot->reply(
+            $bot->reply_to(
                 (@channels)
                     ? 'I am currently in the following channels: ' .
                         $bot->list( ', ', 'and', sort { $a cmp $b } @channels ) . '.'
@@ -64,9 +64,7 @@ sub init {
         },
     );
 
-    $bot->helps(
-        join => 'Join and part channels. Usage: join <channel>, part <channel>, channels.',
-    );
+    $bot->helps( join => 'Join and part channels. Usage: join <channel>, part <channel>, channels.' );
 
     {
         no strict 'refs';

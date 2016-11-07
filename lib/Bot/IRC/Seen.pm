@@ -34,22 +34,23 @@ sub init {
         },
         sub {
             my ( $bot, $in, $m ) = @_;
-
             my $seen = $bot->store->get( lc( $m->{nick} ) );
-            my $text = ($seen)
-                ?
-                    "$seen->{nick} was last seen in $seen->{forum} " .
-                    $duration->format_duration_between(
-                        map { DateTime->from_epoch( epoch => $_ ) } $seen->{time}, time
-                    ) .
-                    " ago saying: \"$seen->{text}\""
-                :
-                    "Sorry. I haven't seen $m->{nick}.";
-            $text = "$in->{nick}: $text" unless ( $in->{private} );
 
-            $bot->reply($text);
+            $bot->reply_to(
+                ($seen)
+                    ?
+                        "$seen->{nick} was last seen in $seen->{forum} " .
+                        $duration->format_duration_between(
+                            map { DateTime->from_epoch( epoch => $_ ) } $seen->{time}, time
+                        ) .
+                        " ago saying: \"$seen->{text}\""
+                    :
+                        "Sorry. I haven't seen $m->{nick}."
+            );
         },
     );
+
+    $bot->helps( seen => 'Tracks when and where people were last seen. Usage: seen <nick>.' );
 }
 
 1;
