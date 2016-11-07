@@ -273,20 +273,14 @@ sub reload {
 sub hook {
     my ( $self, $when, $code, $attr ) = @_;
 
-    $attr //= {};
-    $attr->{priority} //= 0;
-
-    $self->{hooks} = [
-        sort {
-            $b->{attr} <=> $a->{attr}
-        }
+    push(
         @{ $self->{hooks} },
         {
             when => $when,
             code => $code,
-            attr => $attr,
+            attr => ( $attr // {} ),
         },
-    ];
+    );
 
     $self->subs(  %{ $attr->{subs}  } ) if ( ref $attr->{subs}  eq 'HASH' );
     $self->helps( %{ $attr->{helps} } ) if ( ref $attr->{helps} eq 'HASH' );
@@ -685,9 +679,8 @@ when the trigger fires, and an optional additional attributes hashref.
             $bot->reply("$in->{nick}, don't use the word: $m->{word}.");
         },
         {
-            priority => 42,
-            subs     => [],
-            helps    => [],
+            subs  => [],
+            helps => [],
         },
     );
 
@@ -719,10 +712,8 @@ hook properly responded to the message and no additional work needs to be done.
 If the code block returns a false value, additional hooks will be checked as if
 this hook's trigger caused the code block to be skipped.
 
-The optional additional attributes hashref supports a handful of keys. The
-C<priority> value is used to sort the global set of hooks. The value is expected
-to be an integer value. The higher value priority hooks are sorted first.
-You can also specify C<subs> and C<helps>, which are exactly equivalent to
+The optional additional attributes hashref supports a handful of keys.
+You can specify C<subs> and C<helps>, which are exactly equivalent to
 calling C<subs()> and C<helps()>. (See below.)
 
 =head2 hooks
