@@ -179,16 +179,14 @@ sub _on_message {
 
         if ( $self->{in}{to_me} ) {
             if ( $self->{in}{text} =~ /^\s*help\W*$/i ) {
-                $self->reply(
-                    ( ( $self->{in}{private} ) ? '' : $self->{in}{nick} . ': ' ) .
+                $self->reply_to(
                     'Ask me for help with "help topic" where the topic is one of the following: ' .
                     $self->list( ', ', 'and', sort keys %{ $self->{helps} } ) . '.'
                 );
                 next;
             }
             elsif ( $self->{in}{text} =~ /^\s*help\s+(.+?)\W*$/i ) {
-                $self->reply(
-                    ( ( $self->{in}{private} ) ? '' : $self->{in}{nick} . ': ' ) .
+                $self->reply_to(
                     ( $self->{helps}{$1} || "Couldn't find the help topic: $1." )
                 );
                 next;
@@ -352,6 +350,11 @@ sub reply {
         warn "Didn't have a target to send reply to.\n";
     }
     return $self;
+}
+
+sub reply_to {
+    my ( $self, $message ) = @_;
+    return $self->reply( ( ( not $self->{in}{private} ) ? "$self->{in}{nick}: " : '' ) . $message );
 }
 
 sub msg {
@@ -840,6 +843,13 @@ If you want to emote something back or use any other IRC command, type it just
 as you would in your IRC client.
 
     $bot->reply('/me feels something, which for a bot is rather impressive.');
+
+=head2 reply_to
+
+C<reply_to> is exactly like C<reply> except that if the forum for the reply is
+a channel instead of to a specific person, the bot will prepend the message
+by addressing the nick who was the source of the response the bot is responding
+to.
 
 =head2 msg
 
