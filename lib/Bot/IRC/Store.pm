@@ -1,5 +1,5 @@
 package Bot::IRC::Store;
-# ABSTRACT: Bot::IRC Persistent Data Storage with YAML
+# ABSTRACT: Bot::IRC persistent data storage with YAML
 
 use strict;
 use warnings;
