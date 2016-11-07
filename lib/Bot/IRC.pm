@@ -94,28 +94,32 @@ sub _parent {
         );
     };
 
-    while ( my $line = $self->{socket}->getline ) {
-        print $line;
-        chomp($line);
+    eval {
+        while ( my $line = $self->{socket}->getline ) {
+            print $line;
+            chomp($line);
 
-        if ( not $session->{established} ) {
-            if ( not $session->{user} ) {
-                $self->say("USER $self->{nick} 0 * :$self->{connect}{name}");
-                $self->say("NICK $self->{nick}");
-                $session->{user} = 1;
+            if ( not $session->{established} ) {
+                if ( not $session->{user} ) {
+                    $self->say("USER $self->{nick} 0 * :$self->{connect}{name}");
+                    $self->say("NICK $self->{nick}");
+                    $session->{user} = 1;
+                }
+                elsif ( $line =~ /^:\S+\s433\s/ ) {
+                    $self->nick( $self->{nick} . '_' );
+                }
+                elsif ( $line =~ /^:\S+\s001\s/ ) {
+                    $self->join;
+                    $session->{established} = 1;
+                    alarm 1 if ( @{ $self->{ticks} } );
+                }
             }
-            elsif ( $line =~ /^:\S+\s433\s/ ) {
-                $self->nick( $self->{nick} . '_' );
-            }
-            elsif ( $line =~ /^:\S+\s001\s/ ) {
-                $self->join;
-                $session->{established} = 1;
-                alarm 1 if ( @{ $self->{ticks} } );
-            }
+
+            $delegate->($line);
         }
+    };
 
-        $delegate->($line);
-    }
+    kill( 'KILL', $_ ) for ( @{ $device->children } );
 }
 
 sub _on_message {
@@ -396,9 +400,7 @@ sub join {
 
 sub part {
     my $self = shift;
-
     $self->say("PART $_") for (@_);
-
     return $self;
 }
 
