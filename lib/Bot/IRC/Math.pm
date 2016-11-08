@@ -19,7 +19,8 @@ sub init {
         sub {
             my ( $bot, $in ) = @_;
             my $value = $expr->EvalToScalar( $expr->Parse( $in->{text} ) );
-            $bot->reply($value) if ($value);
+            ( my $clean_text = $in->{text} ) =~ s/\s+//g;
+            $bot->reply($value) if ( $value and $value ne $clean_text );
         },
     );
 

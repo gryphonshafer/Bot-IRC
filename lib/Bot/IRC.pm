@@ -250,13 +250,15 @@ sub load {
                 __PACKAGE__ . "::X::$plugin",
                 __PACKAGE__ . "::$plugin",
             ) {
+                ( my $path = $_ ) =~ s|::|/|g;
+
                 eval "require $_";
                 unless ($@) {
                     $namespace = $_;
                     last;
                 }
                 else {
-                    croak($@) unless ( $@ =~ /^Can't locate/ );
+                    croak($@) unless ( $@ =~ /^Can't locate $path/ );
                 }
             }
             croak("Unable to find or properly load $plugin") unless ($namespace);
