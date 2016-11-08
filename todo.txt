@@ -1,4 +1,3 @@
-Infobot
 Morning/Greeting
 Title
 WWW-Shorten

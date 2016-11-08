@@ -100,7 +100,10 @@ sub _parent {
             chomp($line);
 
             if ( not $session->{established} ) {
-                if ( not $session->{user} ) {
+                if ( $line =~ /^(ERROR)\s/ ) {
+                    die $line . "\n";
+                }
+                elsif ( not $session->{user} ) {
                     $self->say("USER $self->{nick} 0 * :$self->{connect}{name}");
                     $self->say("NICK $self->{nick}");
                     $session->{user} = 1;
@@ -140,7 +143,10 @@ sub _on_message {
         $self->{in}{$_} = 0 for ( qw( private to_me ) );
         $self->{in}{line} = $line;
 
-        if ( $line =~ /^:(\S+?)!~?(\S+?)@(\S+?)\s(\S+)\s(\S+)\s:(.*)/ ) {
+        if ( $line =~ /^(ERROR)\s/ ) {
+            warn $line . "\n";
+        }
+        elsif ( $line =~ /^:(\S+?)!~?(\S+?)@(\S+?)\s(\S+)\s(\S+)\s:(.*)/ ) {
             @{ $self->{in} }{ qw( nick user server command forum text ) } = ( $1, $2, $3, $4, $5, $6 );
         }
         elsif ( $line =~ /^:(\S+?)!~?(\S+?)@(\S+?)\s(\S+)\s:(.*)/ ) {
@@ -159,9 +165,6 @@ sub _on_message {
         }
         elsif ( $line =~ /^:(\S+)\s([A-Z]+|\d+)\s(\S+)\s(.*)/ ) {
             @{ $self->{in} }{ qw( source command forum text ) } = ( $1, $2, $3, $4 );
-        }
-        elsif ( $line =~ /^(ERROR)\s/ ) {
-            warn $line . "\n";
         }
         else {
             warn 'Unparsed line (probably a bug in Bot::IRC; please report it): ', $line . "\n";
@@ -225,14 +228,15 @@ sub load {
     for my $plugin (@_) {
         unless ( ref $plugin ) {
             if ( $plugin =~ /^:core$/i ) {
-                $self->load( qw(
-                    Functions
-                    Convert
-                    Join
-                    Seen
-                    Karma
-                    Math
-                ) );
+                $self->load(
+                    'Infobot',
+                    'Functions',
+                    'Convert',
+                    'Join',
+                    'Seen',
+                    'Karma',
+                    'Math',
+                );
                 next;
             }
 

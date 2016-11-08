@@ -10,7 +10,7 @@ use Math::Expression;
 
 sub init {
     my ($bot) = @_;
-    my $expr = Math::Expression->new;
+    my $expr = Math::Expression->new( PrintErrFunc => sub {} );
 
     $bot->hook(
         {

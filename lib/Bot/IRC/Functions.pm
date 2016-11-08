@@ -1,5 +1,5 @@
 package Bot::IRC::Functions;
-# ABSTRACT: Bot::IRC track when and where users were last seen
+# ABSTRACT: Bot::IRC add maybe helpful functions to the bot
 
 use strict;
 use warnings;
@@ -15,7 +15,8 @@ sub init {
 
     $bot->hook(
         {
-            text => qr/(?<function>ord|chr|ascii|rot\d+|crypt)\s+(?<input>.+)/i,
+            command => 'PRIVMSG',
+            text    => qr/(?<function>ord|chr|ascii|rot\d+|crypt)\s+(?<input>.+)/i,
         },
         sub {
             my ( $bot, $in, $m ) = @_;

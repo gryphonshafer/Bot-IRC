@@ -12,7 +12,8 @@ sub init {
 
     $bot->hook(
         {
-            text  => qr/(?<thing>\([^\)]+\)|\S+)\s*(?<type>[+-]{2,})(?:\s*#\s*(?<comment>.+))?/,
+            command => 'PRIVMSG',
+            text    => qr/(?<thing>\([^\)]+\)|\S+)\s*(?<type>[+-]{2,})(?:\s*#\s*(?<comment>.+))?/,
         },
         sub {
             my ( $bot, $in, $m ) = @_;
