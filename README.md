@@ -4,7 +4,7 @@ Bot::IRC - Yet Another IRC Bot
 
 # VERSION
 
-version 1.03
+version 1.04
 
 [![Build Status](https://travis-ci.org/gryphonshafer/Bot-IRC.svg)](https://travis-ci.org/gryphonshafer/Bot-IRC)
 [![Coverage Status](https://coveralls.io/repos/gryphonshafer/Bot-IRC/badge.png)](https://coveralls.io/r/gryphonshafer/Bot-IRC)
@@ -203,9 +203,30 @@ have precedence over "X" which in turn will have precedence over core.
 If you need to allow for variables to get passed to your plugins, an unenforced
 convention is to do so via the `vars` key to `new()`.
 
+## Core Plugins
+
 If you specify ":core" as a plugin name, it will be expanded to load all the
-core plugins. (Core plugins are all the plugins that are bundled and
-distributed with [Bot::IRC](https://metacpan.org/pod/Bot::IRC).)
+core plugins. Core plugins are all the plugins that are bundled and
+distributed with [Bot::IRC](https://metacpan.org/pod/Bot::IRC).
+
+- [Bot::IRC::Infobot](https://metacpan.org/pod/Bot::IRC::Infobot)
+- [Bot::IRC::Functions](https://metacpan.org/pod/Bot::IRC::Functions)
+- [Bot::IRC::Convert](https://metacpan.org/pod/Bot::IRC::Convert)
+- [Bot::IRC::Join](https://metacpan.org/pod/Bot::IRC::Join)
+- [Bot::IRC::Seen](https://metacpan.org/pod/Bot::IRC::Seen)
+- [Bot::IRC::Karma](https://metacpan.org/pod/Bot::IRC::Karma)
+- [Bot::IRC::Math](https://metacpan.org/pod/Bot::IRC::Math)
+- [Bot::IRC::Greeting](https://metacpan.org/pod/Bot::IRC::Greeting)
+
+Some core plugins require a storage plugin. If you don't specify one in your
+plugins list, then the default [Bot::IRC::Store](https://metacpan.org/pod/Bot::IRC::Store) will be used, which is
+probably not what you want (for performance reasons). Try
+[Bot::IRC::Store::SQLite](https://metacpan.org/pod/Bot::IRC::Store::SQLite) instead.
+
+    plugins => [
+        'Store::SQLite',
+        ':core',
+    ],
 
 # PLUGIN METHODS
 

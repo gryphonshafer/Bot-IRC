@@ -642,9 +642,31 @@ have precedence over "X" which in turn will have precedence over core.
 If you need to allow for variables to get passed to your plugins, an unenforced
 convention is to do so via the C<vars> key to C<new()>.
 
+=head2 Core Plugins
+
 If you specify ":core" as a plugin name, it will be expanded to load all the
-core plugins. (Core plugins are all the plugins that are bundled and
-distributed with L<Bot::IRC>.)
+core plugins. Core plugins are all the plugins that are bundled and
+distributed with L<Bot::IRC>.
+
+=for :list
+* L<Bot::IRC::Infobot>
+* L<Bot::IRC::Functions>
+* L<Bot::IRC::Convert>
+* L<Bot::IRC::Join>
+* L<Bot::IRC::Seen>
+* L<Bot::IRC::Karma>
+* L<Bot::IRC::Math>
+* L<Bot::IRC::Greeting>
+
+Some core plugins require a storage plugin. If you don't specify one in your
+plugins list, then the default L<Bot::IRC::Store> will be used, which is
+probably not what you want (for performance reasons). Try
+L<Bot::IRC::Store::SQLite> instead.
+
+    plugins => [
+        'Store::SQLite',
+        ':core',
+    ],
 
 =head1 PLUGIN METHODS
 
