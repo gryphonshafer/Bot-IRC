@@ -225,7 +225,12 @@ sub load {
     for my $plugin (@_) {
         unless ( ref $plugin ) {
             if ( $plugin =~ /^:core$/i ) {
-                $self->load( qw( Join ) );
+                $self->load( qw(
+                    Math
+                    Join
+                    Seen
+                    Karma
+                ) );
                 next;
             }
 
