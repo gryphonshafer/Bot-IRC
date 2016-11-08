@@ -151,6 +151,8 @@ sub _on_message {
         }
         elsif ( $line =~ /^:(\S+?)!~?(\S+?)@(\S+?)\s(\S+)\s:(.*)/ ) {
             @{ $self->{in} }{ qw( nick user server command text ) } = ( $1, $2, $3, $4, $5 );
+            ( $self->{in}{forum} = $self->{in}{text} ) =~ s/^://
+                if ( $self->{in}{command} eq 'JOIN' or $self->{in}{command} eq 'PART' );
         }
         elsif ( $line =~ /^:(\S+?)!~?(\S+?)@(\S+?)\s(\S+)\s(\S+)\s(.*)/ ) {
             @{ $self->{in} }{ qw( nick user server command forum text ) } = ( $1, $2, $3, $4, $5, $6 );
@@ -236,6 +238,7 @@ sub load {
                     'Seen',
                     'Karma',
                     'Math',
+                    'Greeting',
                 );
                 next;
             }

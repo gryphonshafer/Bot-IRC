@@ -1,4 +1,3 @@
-Morning/Greeting
 Title
 WWW-Shorten
 Spell
