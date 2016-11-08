@@ -1,6 +1,15 @@
 Revision history for Bot::IRC
 
 {{$NEXT}}
+        - Removed "priority" concept (because it be dumb and redundant redundant)
+        - Error trapping and clean-up in parent process
+        - Added list() helper
+        - Added reply_to() method to core and used it where appropriate
+        - Stored channels with Join plugin
+        - Added "Seen" plugin
+        - Plugin "Karma" added
+        - Plugin "Math" added
+        - Plugin "Convert" added
 
 1.02      2016-11-04 13:48:17-07:00 America/Los_Angeles
         - Load all core plugins set with ":core"

@@ -4,7 +4,7 @@ Bot::IRC - Yet Another IRC Bot
 
 # VERSION
 
-version 1.02
+version 1.03
 
 [![Build Status](https://travis-ci.org/gryphonshafer/Bot-IRC.svg)](https://travis-ci.org/gryphonshafer/Bot-IRC)
 [![Coverage Status](https://coveralls.io/repos/gryphonshafer/Bot-IRC/badge.png)](https://coveralls.io/r/gryphonshafer/Bot-IRC)
@@ -253,9 +253,8 @@ when the trigger fires, and an optional additional attributes hashref.
             $bot->reply("$in->{nick}, don't use the word: $m->{word}.");
         },
         {
-            priority => 42,
-            subs     => [],
-            helps    => [],
+            subs  => [],
+            helps => [],
         },
     );
 
@@ -286,10 +285,8 @@ hook properly responded to the message and no additional work needs to be done.
 If the code block returns a false value, additional hooks will be checked as if
 this hook's trigger caused the code block to be skipped.
 
-The optional additional attributes hashref supports a handful of keys. The
-`priority` value is used to sort the global set of hooks. The value is expected
-to be an integer value. The higher value priority hooks are sorted first.
-You can also specify `subs` and `helps`, which are exactly equivalent to
+The optional additional attributes hashref supports a handful of keys.
+You can specify `subs` and `helps`, which are exactly equivalent to
 calling `subs()` and `helps()`. (See below.)
 
 ## hooks
@@ -421,6 +418,13 @@ as you would in your IRC client.
 
     $bot->reply('/me feels something, which for a bot is rather impressive.');
 
+## reply\_to
+
+`reply_to` is exactly like `reply` except that if the forum for the reply is
+a channel instead of to a specific person, the bot will prepend the message
+by addressing the nick who was the source of the response the bot is responding
+to.
+
 ## msg
 
 Use `msg()` when you don't have a forum to reply to or want to reply in a
@@ -459,6 +463,23 @@ Use `part()` to part channels.
 
 If some sort of persistent storage plugin is loaded, the bot will remember the
 channels it has joined or parted and use that as it's initial join on restart.
+
+# RANDOM HELPFUL METHODS
+
+The following are random additional methods that might be helpful in your
+plugins.
+
+## list
+
+This method is a simple string method that takes a list and crafts it for
+readability. It expects a separator string, a final item conjunction string,
+and a list of items.
+
+    $bot->list( ', ', 'and', 'Alpha', 'Beta', 'Delta', 'Gamma' );
+    # returns "Alpha, Beta, Delta, and Gamma"
+
+    $bot->list( ', ', 'and', 'Alpha', 'Beta' );
+    # returns "Alpha and Beta"
 
 # SEE ALSO
 
