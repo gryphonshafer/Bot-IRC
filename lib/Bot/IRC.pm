@@ -227,6 +227,7 @@ sub load {
             if ( $plugin =~ /^:core$/i ) {
                 $self->load( qw(
                     Math
+                    Convert
                     Join
                     Seen
                     Karma
