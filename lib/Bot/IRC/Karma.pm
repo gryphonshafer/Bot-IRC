@@ -113,6 +113,10 @@ Reports the karma of a "thing".
 Tells you one positive and one negative comment (at random) about "thing" if
 there are comments to share.
 
+=head2 SEE ALSO
+
+L<Bot::IRC>
+
 =for Pod::Coverage init
 
 =cut

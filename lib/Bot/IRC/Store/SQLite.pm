@@ -108,6 +108,10 @@ methods. These operate just like you would expect.
 
     my $score = $bot->store->set('user')->{score};
 
+=head2 SEE ALSO
+
+L<Bot::IRC>
+
 =for Pod::Coverage init new
 
 =cut

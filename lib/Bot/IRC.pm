@@ -226,11 +226,12 @@ sub load {
         unless ( ref $plugin ) {
             if ( $plugin =~ /^:core$/i ) {
                 $self->load( qw(
-                    Math
+                    Functions
                     Convert
                     Join
                     Seen
                     Karma
+                    Math
                 ) );
                 next;
             }

@@ -24,7 +24,6 @@ sub init {
             eval { $value = convert( $amount, $m->{in_unit}, $m->{out_unit} ) };
 
             $bot->reply("$m->{amount} $m->{in_unit} is $value $m->{out_unit}") if ($value);
-            return;
         },
     );
 
@@ -48,6 +47,10 @@ __END__
 
 This L<Bot::IRC> plugin allows the bot to convert various values of units.
 Unit types must match, which is to say you can't convert length to volume.
+
+=head2 SEE ALSO
+
+L<Bot::IRC>
 
 =for Pod::Coverage init
 

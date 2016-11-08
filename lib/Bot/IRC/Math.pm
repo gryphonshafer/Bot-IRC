@@ -20,7 +20,6 @@ sub init {
             my ( $bot, $in ) = @_;
             my $value = $expr->EvalToScalar( $expr->Parse( $in->{text} ) );
             $bot->reply($value) if ($value);
-            return;
         },
     );
 
@@ -48,6 +47,10 @@ expressions and return the results.
 See L<Math::Expression> for details. Message text is evaluated with C<Parse>
 and C<EvalToScalar> from L<Math::Expression>. If there's a value generated, the
 bot replies with the value.
+
+=head2 SEE ALSO
+
+L<Bot::IRC>
 
 =for Pod::Coverage init
 

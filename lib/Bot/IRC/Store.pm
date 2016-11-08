@@ -95,6 +95,10 @@ is used.
 
     $bot->register('Bot::IRC::Store');
 
+=head2 SEE ALSO
+
+L<Bot::IRC>
+
 =for Pod::Coverage init new
 
 =cut

@@ -1,9 +1,4 @@
-Funcs
-Convert
-Maths
-Seen
 Infobot
-Karma
 Morning/Greeting
 Title
 WWW-Shorten

@@ -137,6 +137,10 @@ Join a given channel.
 
 Depart a given channel.
 
+=head2 SEE ALSO
+
+L<Bot::IRC>
+
 =for Pod::Coverage init
 
 =cut

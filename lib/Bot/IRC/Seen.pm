@@ -75,6 +75,10 @@ were last seen and to report on this when asked. Commands include:
 
 Display last seen information for a given nick.
 
+=head2 SEE ALSO
+
+L<Bot::IRC>
+
 =for Pod::Coverage init
 
 =cut
