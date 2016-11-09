@@ -53,7 +53,7 @@ sub init {
         },
         sub {
             my ($bot)    = @_;
-            my @channels = @{ $bot->store->get('join') || [] };
+            my @channels = @{ $bot->store->get('channels') || [] };
 
             $bot->reply_to(
                 (@channels)

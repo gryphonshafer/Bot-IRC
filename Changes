@@ -1,6 +1,7 @@
 Revision history for Bot::IRC
 
 {{$NEXT}}
+        - Fix for bug in recalling historically joined channels
 
 1.05      2016-11-08 11:39:57-08:00 America/Los_Angeles
         - Improve error reporting on loading plugins
