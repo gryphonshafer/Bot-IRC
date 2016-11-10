@@ -34,6 +34,7 @@ sub init {
             $greeting .= $1 if ( $in->{nick} =~ /(_+)$/ );
 
             $bot->reply_to($greeting);
+            return;
         },
     );
 }

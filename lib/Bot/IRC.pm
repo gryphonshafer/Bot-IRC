@@ -231,14 +231,14 @@ sub load {
         unless ( ref $plugin ) {
             if ( $plugin =~ /^:core$/i ) {
                 $self->load(
+                    'Join',
+                    'Seen',
+                    'Greeting',
                     'Infobot',
                     'Functions',
                     'Convert',
-                    'Join',
-                    'Seen',
                     'Karma',
                     'Math',
-                    'Greeting',
                 );
                 next;
             }

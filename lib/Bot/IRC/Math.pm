@@ -15,6 +15,7 @@ sub init {
     $bot->hook(
         {
             command => 'PRIVMSG',
+            text    => qr/^[\d\s\+\-\/\*\%\^\(\)]+$/,
         },
         sub {
             my ( $bot, $in ) = @_;

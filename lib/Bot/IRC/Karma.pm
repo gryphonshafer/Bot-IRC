@@ -29,7 +29,6 @@ sub init {
 
             push( @{ $thing->{comments}{$type} }, $m->{comment} ) if ( $m->{comment} );
             $bot->store->set( lc( $m->{thing} ) => $thing );
-            return;
         },
     );
 
