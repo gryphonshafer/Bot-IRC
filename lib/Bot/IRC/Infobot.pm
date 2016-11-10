@@ -61,7 +61,7 @@ sub init {
             }
             $bot->reply(
                 $text //
-                "$display_term is " . $bot->list( ', ', 'and', map { /[.,;:?!]+$/; $_ } @facts ) . '.'
+                "$display_term is " . $bot->list( ', ', 'and', map { s/[.,;:?!]+$//; $_ } @facts ) . '.'
             );
         },
     );
@@ -69,7 +69,7 @@ sub init {
     $bot->hook(
         {
             to_me => 1,
-            text  => qr/no\W+(?<term>\([^\)]+\)|\S+)\s+(?:is|=)\s+(?<fact>.+?)[.,:;?!]*$/i,
+            text  => qr/no\W+(?<term>\([^\)]+\)|\S+)\s+(?:is|=)\s+(?<fact>.+?)$/i,
         },
         sub {
             my ( $bot, $in, $m ) = @_;
@@ -84,7 +84,7 @@ sub init {
     $bot->hook(
         {
             to_me => 1,
-            text  => qr/forget\W+(?<term>\([^\)]+\)|\S+)/i,
+            text  => qr/forget\W+(?<term>\([^\)]+\)|[^.,:;?!\s]+)/i,
         },
         sub {
             my ( $bot, $in, $m ) = @_;
@@ -99,7 +99,7 @@ sub init {
     $bot->hook(
         {
             to_me => 1,
-            text  => qr/info\s+on\s+(?<term>\([^\)]+\)|\S+)/i,
+            text  => qr/info\s+on\s+(?<term>\([^\)]+\)|[^.,:;?!\s]+)/i,
         },
         sub {
             my ( $bot, $in, $m ) = @_;
