@@ -103,8 +103,15 @@ sub _parent {
             chomp($line);
 
             if ( not $session->{established} ) {
-                if ( $line =~ /^(ERROR)\s/ ) {
-                    die $line . "\n";
+                if ( $line =~ /^ERROR.+onnect\w+ too fast/ ) {
+                    warn "$line\n";
+                    warn "Sleeping 20 and retrying...\n";
+                    sleep 20;
+                    $device->daemon->do_restart;
+                }
+                elsif ( $line =~ /^ERROR\s/ ) {
+                    warn "$line\n";
+                    $device->daemon->do_stop;
                 }
                 elsif ( not $session->{user} ) {
                     $self->say("USER $self->{nick} 0 * :$self->{connect}{name}");
