@@ -14,7 +14,7 @@ sub init {
     $bot->hook(
         {
             command => 'PRIVMSG',
-            text    => qr/(?<amount>[\d,\.]+)\s+(?<in_unit>\S+)\s+(?:in|as|to|into)\s+(?<out_unit>\S+)/,
+            text    => qr/^(?<amount>[\d,\.]+)\s+(?<in_unit>\S+)\s+(?:in|as|to|into)\s+(?<out_unit>\S+)/,
         },
         sub {
             my ( $bot, $in, $m ) = @_;

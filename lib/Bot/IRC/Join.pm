@@ -13,7 +13,7 @@ sub init {
     $bot->hook(
         {
             to_me => 1,
-            text  => qr/\bjoin\s+(?<channel>\S+)/i,
+            text  => qr/^join\s+(?<channel>\S+)/i,
         },
         sub {
             my ( $bot, $in, $m ) = @_;
@@ -31,7 +31,7 @@ sub init {
     $bot->hook(
         {
             to_me => 1,
-            text  => qr/\b(?:part|leave)\s+(?<channel>\S+)/i,
+            text  => qr/^(?:part|leave)\s+(?<channel>\S+)/i,
         },
         sub {
             my ( $bot, $in, $m ) = @_;
@@ -49,7 +49,7 @@ sub init {
     $bot->hook(
         {
             to_me => 1,
-            text  => qr/\bchannels\b/i,
+            text  => qr/^channels\b/i,
         },
         sub {
             my ($bot)    = @_;

@@ -30,7 +30,7 @@ sub init {
     $bot->hook(
         {
             to_me => 1,
-            text  => qr/\bseen\s+(?<nick>\S+)/i,
+            text  => qr/^seen\s+(?<nick>\S+)/i,
         },
         sub {
             my ( $bot, $in, $m ) = @_;

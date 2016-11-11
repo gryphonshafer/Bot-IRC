@@ -16,7 +16,7 @@ sub init {
     $bot->hook(
         {
             command => 'PRIVMSG',
-            text    => qr/(?<function>ord|chr|ascii|rot\d+|crypt)\s+(?<input>.+)/i,
+            text    => qr/^(?<function>ord|chr|ascii|rot\d+|crypt)\s+(?<input>.+)/i,
         },
         sub {
             my ( $bot, $in, $m ) = @_;

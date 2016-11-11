@@ -13,7 +13,7 @@ sub init {
     $bot->hook(
         {
             command => 'PRIVMSG',
-            text    => qr/(?<thing>\([^\)]+\)|\S+)\s*(?<type>[+-]{2,})(?:\s*#\s*(?<comment>.+))?/,
+            text    => qr/^(?<thing>\([^\)]+\)|\S+)\s*(?<type>[+-]{2,})(?:\s*#\s*(?<comment>.+))?/,
         },
         sub {
             my ( $bot, $in, $m ) = @_;
@@ -35,7 +35,7 @@ sub init {
     $bot->hook(
         {
             to_me => 1,
-            text  => qr/\bkarma\s+(?<thing>\([^\)]+\)|\S+)/i,
+            text  => qr/^karma\s+(?<thing>\([^\)]+\)|\S+)/i,
         },
         sub {
             my ( $bot, $in, $m ) = @_;
@@ -49,7 +49,7 @@ sub init {
     $bot->hook(
         {
             to_me => 1,
-            text  => qr/\bexplain\s+(?<thing>\([^\)]+\)|\S+)/i,
+            text  => qr/^explain\s+(?<thing>\([^\)]+\)|\S+)/i,
         },
         sub {
             my ( $bot, $in, $m ) = @_;

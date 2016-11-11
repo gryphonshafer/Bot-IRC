@@ -16,7 +16,7 @@ sub init {
     $bot->hook(
         {
             command => 'PRIVMSG',
-            text    => qr/(?<term>\([^\)]+\)|\S+)\s+(?:is|=)\s+(?<fact>.+?)$/i,
+            text    => qr/^(?<term>\([^\)]+\)|\S+)\s+(?:is|=)\s+(?<fact>.+?)$/i,
         },
         sub {
             my ( $bot, $in, $m ) = @_;
@@ -34,7 +34,7 @@ sub init {
     $bot->hook(
         {
             command => 'PRIVMSG',
-            text    => qr/^\s*(?<term>\([^\)]+\)|\S+)\?/i,
+            text    => qr/^(?<term>\([^\)]+\)|\S+)\?/i,
         },
         sub {
             my ( $bot, $in, $m ) = @_;
@@ -69,7 +69,7 @@ sub init {
     $bot->hook(
         {
             to_me => 1,
-            text  => qr/no\W+(?<term>\([^\)]+\)|\S+)\s+(?:is|=)\s+(?<fact>.+?)$/i,
+            text  => qr/^no\W+(?<term>\([^\)]+\)|\S+)\s+(?:is|=)\s+(?<fact>.+?)$/i,
         },
         sub {
             my ( $bot, $in, $m ) = @_;
@@ -84,7 +84,7 @@ sub init {
     $bot->hook(
         {
             to_me => 1,
-            text  => qr/forget\W+(?<term>\([^\)]+\)|[^.,:;?!\s]+)/i,
+            text  => qr/^forget\W+(?<term>\([^\)]+\)|[^.,:;?!\s]+)/i,
         },
         sub {
             my ( $bot, $in, $m ) = @_;
@@ -99,7 +99,7 @@ sub init {
     $bot->hook(
         {
             to_me => 1,
-            text  => qr/info\s+on\s+(?<term>\([^\)]+\)|[^.,:;?!\s]+)/i,
+            text  => qr/^info\s+on\s+(?<term>\([^\)]+\)|[^.,:;?!\s]+)/i,
         },
         sub {
             my ( $bot, $in, $m ) = @_;

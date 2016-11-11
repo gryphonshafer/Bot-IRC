@@ -58,6 +58,7 @@ sub run {
     eval {
         $self->{device} = Daemon::Device->new(
             parent     => \&_parent,
+            child      => \&_child,
             on_message => \&_on_message,
             spawn      => $self->{spawn},
             daemon     => $self->{daemon},
@@ -94,6 +95,8 @@ sub _parent {
         );
     };
 
+    srand();
+
     eval {
         while ( my $line = $self->{socket}->getline ) {
             print $line;
@@ -121,8 +124,13 @@ sub _parent {
             $delegate->($line);
         }
     };
-
+    warn "$@\n";
     kill( 'KILL', $_ ) for ( @{ $device->children } );
+}
+
+sub _child {
+    srand();
+    sleep 1 while (1);
 }
 
 sub _on_message {
