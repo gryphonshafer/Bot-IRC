@@ -213,7 +213,18 @@ sub _on_message {
             }
         }
 
-        hook: for my $hook ( @{ $self->{hooks} } ) {
+        hook: for my $hook (
+            @{ $self->{hooks} },
+            {
+                when => {
+                    to_me => 1,
+                },
+                code => sub {
+                    my ( $bot, $in ) = @_;
+                    $bot->reply_to(qq{Sorry. I don't understand. (Try "$bot->{nick} help" for help.)});
+                },
+            },
+        ) {
             my $captured_matches = {};
 
             for my $type ( keys %{ $hook->{when} } ) {
