@@ -1,9 +1,11 @@
 Revision history for Bot::IRC
 
 {{$NEXT}}
+        - More gracefully handle IRC server connection throttling
+        - Respond to "to_me" messages that aren't handled by plugins
 
 1.06      2016-11-10 18:14:41-08:00 America/Los_Angeles
-        - Core plugin load order and block/return minor patch Gryphon Shafer
+        - Core plugin load order and block/return minor patch
         - Infobot plugin fix for punctuation
         - Variety of small bug fixes
         - Fix for bug in recalling historically joined channels
