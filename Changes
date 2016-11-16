@@ -1,6 +1,7 @@
 Revision history for Bot::IRC
 
 {{$NEXT}}
+        - Added the "Ping" core plugin
 
 1.07      2016-11-11 09:09:17-08:00 America/Los_Angeles
         - More gracefully handle IRC server connection throttling

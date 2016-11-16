@@ -4,7 +4,7 @@ Bot::IRC - Yet Another IRC Bot
 
 # VERSION
 
-version 1.07
+version 1.08
 
 [![Build Status](https://travis-ci.org/gryphonshafer/Bot-IRC.svg)](https://travis-ci.org/gryphonshafer/Bot-IRC)
 [![Coverage Status](https://coveralls.io/repos/gryphonshafer/Bot-IRC/badge.png)](https://coveralls.io/r/gryphonshafer/Bot-IRC)
@@ -501,6 +501,12 @@ and a list of items.
 
     $bot->list( ', ', 'and', 'Alpha', 'Beta' );
     # returns "Alpha and Beta"
+
+## health
+
+This method returns a hashref of simple key value pairs for different "health"
+aspects (or current state) of the bot. It includes things like server and port
+connection, number of children, and so on.
 
 # SEE ALSO
 

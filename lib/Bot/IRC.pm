@@ -257,6 +257,7 @@ sub load {
         unless ( ref $plugin ) {
             if ( $plugin =~ /^:core$/i ) {
                 $self->load(
+                    'Ping',
                     'Join',
                     'Seen',
                     'Greeting',
@@ -462,6 +463,21 @@ sub list {
     else {
         return $list[0];
     }
+}
+
+sub health {
+    my ($self) = @_;
+
+    return {
+        nick    => $self->{nick},
+        server  => $self->{connect}{server},
+        port    => $self->{connect}{port},
+        ssl     => $self->{connect}{ssl},
+        spawn   => $self->{spawn},
+        hooks   => scalar( @{ $self->{hooks} } ),
+        ticks   => scalar( @{ $self->{ticks} } ),
+        plugins => scalar( keys %{ $self->{loaded} } ),
+    };
 }
 
 1;
@@ -970,6 +986,12 @@ and a list of items.
 
     $bot->list( ', ', 'and', 'Alpha', 'Beta' );
     # returns "Alpha and Beta"
+
+=head2 health
+
+This method returns a hashref of simple key value pairs for different "health"
+aspects (or current state) of the bot. It includes things like server and port
+connection, number of children, and so on.
 
 =head1 SEE ALSO
 
