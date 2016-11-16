@@ -1,6 +1,8 @@
 Revision history for Bot::IRC
 
 {{$NEXT}}
+
+1.08      2016-11-16 05:38:22-08:00 America/Los_Angeles
         - Added the "Ping" core plugin
 
 1.07      2016-11-11 09:09:17-08:00 America/Los_Angeles
