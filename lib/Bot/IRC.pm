@@ -96,6 +96,7 @@ sub _parent {
     };
 
     srand();
+    my @lines;
 
     eval {
         while ( my $line = $self->{socket}->getline ) {
@@ -128,7 +129,17 @@ sub _parent {
                 }
             }
 
-            $delegate->($line);
+            shift @lines while ( @lines > 10 );
+            my $now = time();
+
+            unless ( grep { $_->{line} eq $line and $_->{time} + 1 > $now } @lines ) {
+                $delegate->($line);
+            }
+            else {
+                print "### Skipped repeated line: $line\n";
+            }
+
+            push @lines, { line => $line, time => $now };
         }
     };
     warn "$@\n";
