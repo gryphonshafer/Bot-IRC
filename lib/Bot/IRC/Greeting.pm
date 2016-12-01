@@ -93,6 +93,6 @@ You can specify the greeting word with C<vars>, C<greeting>.
 
 L<Bot::IRC>
 
-=for Pod::Coverage init
+=for Pod::Coverage init greeting_based_on_nick
 
 =cut

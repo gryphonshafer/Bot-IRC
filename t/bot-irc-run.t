@@ -50,15 +50,15 @@ lives_ok( sub { $bot = MODULE->new(
 
 lives_ok( sub { $bot->run }, MODULE . '->run' );
 
-stdout_is(
+stdout_like(
     sub { $bot->say( qw( line0 line1 ) ) },
-    "<<< line0\n<<< line1\n",
+    qr/\[[^\]]+\] <<< line0\n\[[^\]]+\] <<< line1\n/ms,
     '$bot->say',
 );
 
-stdout_is(
+stdout_like(
     sub { $bot->msg( '#test', 'Message.' ) },
-    "<<< PRIVMSG #test :Message.\n",
+    qr/\[[^\]]+\] <<< PRIVMSG #test :Message.\n/ms,
     '$bot->msg',
 );
 
@@ -68,9 +68,9 @@ warning_like(
     '$bot->reply without forum',
 );
 
-stdout_is(
+stdout_like(
     sub { $bot->nick('new') },
-    "<<< NICK new\n",
+    qr/\[[^\]]+\] <<< NICK new\n/ms,
     '$bot->nick',
 );
 

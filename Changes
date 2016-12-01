@@ -1,6 +1,9 @@
 Revision history for Bot::IRC
 
 {{$NEXT}}
+        - Bot::IRC::History plugin and integrations
+        - Improved Greeting plugin for a little nice-ness from the bot
+        - Add note() method and warn/die hooks to put date/time in log files
 
 1.09      2016-11-22 13:53:57-08:00 America/Los_Angeles
         - Basic flood protection for fast-repeated inputs

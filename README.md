@@ -4,7 +4,7 @@ Bot::IRC - Yet Another IRC Bot
 
 # VERSION
 
-version 1.09
+version 1.10
 
 [![Build Status](https://travis-ci.org/gryphonshafer/Bot-IRC.svg)](https://travis-ci.org/gryphonshafer/Bot-IRC)
 [![Coverage Status](https://coveralls.io/repos/gryphonshafer/Bot-IRC/badge.png)](https://coveralls.io/r/gryphonshafer/Bot-IRC)
@@ -507,6 +507,21 @@ and a list of items.
 This method returns a hashref of simple key value pairs for different "health"
 aspects (or current state) of the bot. It includes things like server and port
 connection, number of children, and so on.
+
+## note
+
+While in theory you shouldn't ever need to use it, there is a method called
+"note" which is a handler for writing to the log and error files. If you
+`warn` or `die`, this handler steps in automatically. If you'd like to
+`print` to STDOUT, which you really shouldn't need to do, then it's best to
+call this method instead. The reason being is that the log file is designed to
+be parsed in a specific way. If you write whatever you want to it, it will
+corrupt the log file. That said, if you really, really want to, here's how you
+use `note`:
+
+    $bot->note('Message');           # writes a message to the log file
+    $bot->note( 'Message', 'warn' ); # writes a message to the error file
+    $bot->note( 'Message', 'die' );  # writes a message to the error file the dies
 
 # SEE ALSO
 
