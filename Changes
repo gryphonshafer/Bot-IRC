@@ -1,6 +1,8 @@
 Revision history for Bot::IRC
 
 {{$NEXT}}
+
+1.10      2016-12-01 14:52:21-08:00 America/Los_Angeles
         - Bot::IRC::History plugin and integrations
         - Improved Greeting plugin for a little nice-ness from the bot
         - Add note() method and warn/die hooks to put date/time in log files
