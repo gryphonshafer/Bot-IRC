@@ -167,8 +167,8 @@ sub _parent {
 }
 
 sub _child {
-    local $SIG{__WARN__} = sub { undef, note( $_[0], 'warn' ) };
-    local $SIG{__DIE__}  = sub { undef, note( $_[0], 'die'  ) };
+    local $SIG{__WARN__} = sub { note( undef, $_[0], 'warn' ) };
+    local $SIG{__DIE__}  = sub { note( undef, $_[0], 'die'  ) };
 
     srand();
     sleep 1 while (1);
@@ -245,6 +245,9 @@ sub _on_message {
                 );
                 next;
             }
+            elsif ( $self->{in}{text} =~ /Sorry. I don't understand./ ) {
+                next;
+            }
         }
 
         hook: for my $hook (
@@ -255,7 +258,7 @@ sub _on_message {
                 },
                 code => sub {
                     my ( $bot, $in ) = @_;
-                    $bot->reply_to(qq{Sorry. I don't understand. (Try "$bot->{nick} help" for help.)});
+                    $bot->reply_to(qq{Sorry. I don't understand. (Try "$self->{nick} help" for help.)});
                 },
             },
         ) {
@@ -300,6 +303,7 @@ sub load {
                     'Convert',
                     'Karma',
                     'Math',
+                    'History',
                 );
                 next;
             }
