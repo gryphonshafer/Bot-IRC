@@ -9,6 +9,7 @@ use Daemon::Device;
 use IO::Socket;
 use IO::Socket::SSL;
 use Time::Crontab;
+use Date::Format 'time2str';
 
 # VERSION
 
@@ -69,6 +70,22 @@ sub run {
     $self->{device}->run;
 }
 
+sub note {
+    my ( $self, $msg, $err ) = @_;
+    chomp($msg);
+    $msg = '[' . time2str( '%d/%b/%Y:%H:%M:%S %z', time() ) . '] ' . $msg . "\n";
+
+    if ($err) {
+        die $msg if ( $err eq 'die' );
+        warn $msg;
+    }
+    else {
+        print $msg;
+    }
+
+    return;
+}
+
 sub _parent {
     my ($device) = @_;
     my $self     = $device->data('self');
@@ -95,12 +112,15 @@ sub _parent {
         );
     };
 
+    local $SIG{__WARN__} = sub { note( undef, $_[0], 'warn' ) };
+    local $SIG{__DIE__}  = sub { note( undef, $_[0], 'die'  ) };
+
     srand();
     my @lines;
 
     eval {
         while ( my $line = $self->{socket}->getline ) {
-            print $line;
+            $self->note($line);
             chomp($line);
 
             if ( not $session->{established} ) {
@@ -136,7 +156,7 @@ sub _parent {
                 $delegate->($line);
             }
             else {
-                print "### Skipped repeated line: $line\n";
+                $self->note("### Skipped repeated line: $line");
             }
 
             push @lines, { line => $line, time => $now };
@@ -147,6 +167,9 @@ sub _parent {
 }
 
 sub _child {
+    local $SIG{__WARN__} = sub { undef, note( $_[0], 'warn' ) };
+    local $SIG{__DIE__}  = sub { undef, note( $_[0], 'die'  ) };
+
     srand();
     sleep 1 while (1);
 }
@@ -422,7 +445,7 @@ sub say {
 
     for (@_) {
         $self->{socket}->print( $_ . "\r\n" );
-        print '<<< ', $_, "\n";
+        $self->note("<<< $_");
     }
     return $self;
 }
@@ -1003,6 +1026,21 @@ and a list of items.
 This method returns a hashref of simple key value pairs for different "health"
 aspects (or current state) of the bot. It includes things like server and port
 connection, number of children, and so on.
+
+=head2 note
+
+While in theory you shouldn't ever need to use it, there is a method called
+"note" which is a handler for writing to the log and error files. If you
+C<warn> or C<die>, this handler steps in automatically. If you'd like to
+C<print> to STDOUT, which you really shouldn't need to do, then it's best to
+call this method instead. The reason being is that the log file is designed to
+be parsed in a specific way. If you write whatever you want to it, it will
+corrupt the log file. That said, if you really, really want to, here's how you
+use C<note>:
+
+    $bot->note('Message');           # writes a message to the log file
+    $bot->note( 'Message', 'warn' ); # writes a message to the error file
+    $bot->note( 'Message', 'die' );  # writes a message to the error file the dies
 
 =head1 SEE ALSO
 
