@@ -11,6 +11,7 @@ use DateTime::Format::Human::Duration;
 
 sub init {
     my ($bot) = @_;
+    my $greeting = $bot->{vars}{greeting} // 'greetings';
 
     $bot->hook(
         {
@@ -18,25 +19,50 @@ sub init {
         },
         sub {
             my ( $bot, $in ) = @_;
-
-            my $greeting = $bot->{vars}{greeting} // 'greetings';
-
-            if ( $in->{nick} !~ /[a-z]/ ) {
-                $greeting = uc($greeting);
-            }
-            else {
-                for ( my $i = 0; $i < length($greeting) and $i < length( $in->{nick} ); $i++ ) {
-                    my $letter = substr( $in->{nick}, $i, 1 );
-                    substr( $greeting, $i, 1, uc( substr( $greeting, $i, 1 ) ) ) if ( $letter =~ /[A-Z]/ );
-                }
-            }
-            $greeting =~ tr/oi/01/ if ( $in->{nick} =~ /[0-9]/ );
-            $greeting .= $1 if ( $in->{nick} =~ /(_+)$/ );
-
-            $bot->reply_to($greeting);
+            $bot->reply_to( greeting_based_on_nick( $greeting, $in->{nick} ) );
             return;
         },
     );
+
+    $bot->hook(
+        {
+            to_me => 1,
+            text  => greeting_based_on_nick( $greeting, $bot->nick ),
+        },
+        sub {
+            my ( $bot, $in ) = @_;
+            $bot->reply_to('Thanks.');
+        },
+    );
+
+    $bot->hook(
+        {
+            to_me => 1,
+            text  => 'Thanks.',
+        },
+        sub {
+            my ( $bot, $in ) = @_;
+            $bot->reply_to(q{You're welcome.});
+        },
+    );
+}
+
+sub greeting_based_on_nick {
+    my ( $greeting, $nick ) = @_;
+
+    if ( $nick !~ /[a-z]/ ) {
+        $greeting = uc($greeting);
+    }
+    else {
+        for ( my $i = 0; $i < length($greeting) and $i < length( $nick ); $i++ ) {
+            my $letter = substr( $nick, $i, 1 );
+            substr( $greeting, $i, 1, uc( substr( $greeting, $i, 1 ) ) ) if ( $letter =~ /[A-Z]/ );
+        }
+    }
+    $greeting =~ tr/oi/01/ if ( $nick =~ /[0-9]/ );
+    $greeting .= $1 if ( $nick =~ /(_+)$/ );
+
+    return $greeting;
 }
 
 1;
