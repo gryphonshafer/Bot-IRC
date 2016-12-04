@@ -11,6 +11,9 @@ use File::Grep 'fgrep';
 
 sub init {
     my ($bot) = @_;
+    my @filter = ( ref $bot->{vars}{history}{filter} )
+        ? @{ $bot->{vars}{history}{filter} }
+        : ($bot->{vars}{history}{filter});
 
     $bot->hook(
         {
@@ -20,7 +23,10 @@ sub init {
         sub {
             my ( $bot, $in, $m ) = @_;
 
-            if ( not Email::Valid->address( $m->{email} ) ) {
+            if ( grep { lc( $in->{forum} ) eq lc($_) } @filter ) {
+                $bot->reply_to(q{I'm not allowed to return history for this channel.});
+            }
+            elsif ( not Email::Valid->address( $m->{email} ) ) {
                 $bot->reply_to('The email address you provided does not appear to be valid.');
             }
             elsif ( not -f $bot->{daemon}{stdout_file} ) {
@@ -78,6 +84,7 @@ __END__
     Bot::IRC->new(
         connect => { server => 'irc.perl.org' },
         plugins => ['History'],
+        history => { filter => ['#perl'] },
     )->run;
 
 =head1 DESCRIPTION
@@ -108,6 +115,17 @@ You can also search for any particular string in the chat history of the
 channel:
 
     bot history string gryphon@example.com
+
+=head2 Filtering Channels
+
+You can specify the channels to filter or disallow from history with C<vars>,
+C<history>, C<filter>, which can be either a string or arrayref.
+
+    Bot::IRC->new(
+        connect => { server => 'irc.perl.org' },
+        plugins => ['History'],
+        history => { filter => ['#perl'] },
+    )->run;
 
 =head2 SEE ALSO
 
