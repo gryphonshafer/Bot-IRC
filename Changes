@@ -1,6 +1,8 @@
 Revision history for Bot::IRC
 
 {{$NEXT}}
+
+1.11      2016-12-03 21:18:42-08:00 America/Los_Angeles
         - History plugin can now be told to filter certain channels
 
 1.10      2016-12-01 14:52:21-08:00 America/Los_Angeles
