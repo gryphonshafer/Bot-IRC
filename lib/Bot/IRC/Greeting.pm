@@ -11,7 +11,7 @@ use DateTime::Format::Human::Duration;
 
 sub init {
     my ($bot) = @_;
-    my $greeting = $bot->{vars}{greeting} // 'greetings';
+    my $greeting = $bot->vars // 'greetings';
 
     $bot->hook(
         {

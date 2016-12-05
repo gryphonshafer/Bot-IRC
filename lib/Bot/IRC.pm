@@ -418,6 +418,17 @@ sub register {
     return $self;
 }
 
+sub vars {
+    my ( $self, $name ) = @_;
+    ( $name = lc( substr( ( caller() )[0], length(__PACKAGE__) + 2 ) ) ) =~ s/::/\-/g unless ($name);
+    return $self->{vars}{$name};
+}
+
+sub settings {
+    my ( $self, $name ) = @_;
+    return ( defined $name ) ? $self->{$name} : { %$self };
+}
+
 sub reply {
     my ( $self, $message ) = @_;
 
@@ -923,6 +934,39 @@ namespace) that you want to skip.
     $bot->register('Bot::IRC::Storage');
 
 Note that this will not block the reloading of plugins with C<reload()>.
+
+=head2 vars
+
+When you are within a plugin, you can call C<vars()> to get the variables for
+the plugin by it's lower-case "simplified" name, which is the plugin's class
+name all lower-case, without the preceding "Bot::IRC::" bit, and with "::"s
+replaced with dashes. For example, let's say you were writing a
+"Bot::IRC::X::Something" plugin. You would have users set variables in their
+instantiation like so:
+
+    Bot::IRC->new
+        plugins => ['Something'],
+        vars    => { x-something => { answer => 42 } },
+    )->run;
+
+Then from within the "Bot::IRC::X::Something" plugin, you would access these
+variables like so:
+
+    my $my_vars = $bot->vars;
+    say 'The answer to life, the universe, and everything is ' . $my_vars->{answer};
+
+If you want to access the variables for a different namespace, pass into
+C<vars()> the "simplified" name you want to access.
+
+    my $my_other_vars = $bot->vars('x-something-else');
+
+=head2 settings
+
+If you need access to the bot's settings, you can do so with C<settings()>.
+Supply the setting name/key to get that setting, or provide no name/key to get
+all settings as a hashref.
+
+    my $connection_settings_hashref = $bot->settings('connect');
 
 =head1 INLINE PLUGINS
 

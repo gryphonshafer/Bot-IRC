@@ -10,10 +10,10 @@ use File::Grep 'fgrep';
 # VERSION
 
 sub init {
-    my ($bot) = @_;
-    my @filter = ( ref $bot->{vars}{history}{filter} )
-        ? @{ $bot->{vars}{history}{filter} }
-        : ($bot->{vars}{history}{filter});
+    my ($bot)       = @_;
+    my $vars        = $bot->vars;
+    my @filter      = ( ref $vars->{filter} ) ? @{ $vars->{filter} } : ( $vars->{filter} );
+    my $stdout_file = $bot->settings('daemon')->{stdout_file};
 
     $bot->hook(
         {
@@ -29,7 +29,7 @@ sub init {
             elsif ( not Email::Valid->address( $m->{email} ) ) {
                 $bot->reply_to('The email address you provided does not appear to be valid.');
             }
-            elsif ( not -f $bot->{daemon}{stdout_file} ) {
+            elsif ( not -f $stdout_file ) {
                 $bot->reply_to(q{Sorry. I can't seem to access a log file right now.});
             }
             else {
@@ -41,7 +41,7 @@ sub init {
                 } fgrep {
                     /^\[[^\]]*\]\s\S+\sPRIVMSG\s$in->{forum}/ and
                     /$m->{search}/
-                } $bot->{daemon}{stdout_file};
+                } $stdout_file;
 
                 if ( not @matches ) {
                     $bot->reply_to(q{I didn't find any history matching what you requested.});

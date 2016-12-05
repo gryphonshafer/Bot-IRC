@@ -22,7 +22,7 @@ sub new {
     my ( $class, $bot ) = @_;
     my $self = bless( {}, $class );
 
-    $self->{file} = $bot->{vars}{store} || 'store.sqlite';
+    $self->{file} = $bot->vars('store') || 'store.sqlite';
     my $pre_exists = ( -f $self->{file} ) ? 1 : 0;
 
     $self->{dbh} = DBI->connect( 'dbi:SQLite:dbname=' . $self->{file} ) or die "$@\n";

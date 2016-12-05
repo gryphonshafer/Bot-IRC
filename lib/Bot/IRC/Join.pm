@@ -81,10 +81,9 @@ sub init {
             my %channels = map { $_ => 1 } @{ $bot->store->get('channels') || [] };
             @channels    = keys %channels unless (@channels);
 
-            if ( not @channels and $bot->{connect}{join} ) {
-                @channels = ( ref $bot->{connect}{join} eq 'ARRAY' )
-                    ? @{ $bot->{connect}{join} }
-                    : $bot->{connect}{join}
+            my $join = $bot->settings('connect')->{join};
+            if ( not @channels and $join ) {
+                @channels = ( ref $join eq 'ARRAY' ) ? @$join : $join
             }
 
             $bot->join_super(@channels);

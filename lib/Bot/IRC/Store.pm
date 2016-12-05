@@ -19,7 +19,7 @@ sub new {
     my ( $class, $bot ) = @_;
     my $self = bless( {}, $class );
 
-    $self->{file} = $bot->{vars}{store} || 'store.yaml';
+    $self->{file} = $bot->vars || 'store.yaml';
 
     eval {
         unless ( -f $self->{file} ) {
