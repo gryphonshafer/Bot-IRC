@@ -97,7 +97,7 @@ sub init {
 
     $bot->subs(
         part => sub {
-            my $bot    = shift;
+            my $bot      = shift;
             my %channels = map { $_ => 1 } @{ $bot->store->get('channels') || [] };
 
             $bot->part_super(@_);
@@ -106,6 +106,12 @@ sub init {
             $bot->store->set( 'channels' => [ keys %channels ] );
 
             return $bot;
+        },
+    );
+
+    $bot->subs(
+        channels => sub {
+            return shift->store->get('channels') || [];
         },
     );
 }
