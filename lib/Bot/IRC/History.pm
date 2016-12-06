@@ -69,7 +69,7 @@ sub init {
     $bot->helps( history =>
         'Dump selected channel history to email. ' .
         'Usage: "history [DATE] [EMAIL]" or "history [STRING] [EMAIL]". ' .
-        'See also: https://metacpan.org/pod/Bot::IRC::History.'
+        'See also: https://metacpan.org/pod/Bot::IRC::History'
     );
 }
 

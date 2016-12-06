@@ -117,7 +117,7 @@ sub init {
 
     $bot->helps( infobot =>
         'Mimics the factoid functionality of the classic infobot. ' .
-        'Usage: https://metacpan.org/pod/Bot::IRC::Infobot.'
+        'Usage: https://metacpan.org/pod/Bot::IRC::Infobot'
     );
 }
 
