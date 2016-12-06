@@ -2,6 +2,9 @@ Revision history for Bot::IRC
 
 {{$NEXT}}
         - Improving a little on best practice by having accesstors for vars() and settings()
+        - Add channels() method to bot via Join plugin
+        - Make help URLs more clickable for some IRC clients
+        - Handle UTF8 output a little better; handle exceptions from plugins better
 
 1.11      2016-12-03 21:18:42-08:00 America/Los_Angeles
         - History plugin can now be told to filter certain channels

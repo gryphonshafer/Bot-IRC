@@ -10,6 +10,7 @@ use IO::Socket;
 use IO::Socket::SSL;
 use Time::Crontab;
 use Date::Format 'time2str';
+use Encode 'encode';
 
 # VERSION
 
@@ -73,7 +74,7 @@ sub run {
 sub note {
     my ( $self, $msg, $err ) = @_;
     chomp($msg);
-    $msg = '[' . time2str( '%d/%b/%Y:%H:%M:%S %z', time() ) . '] ' . $msg . "\n";
+    $msg = '[' . time2str( '%d/%b/%Y:%H:%M:%S %z', time() ) . '] ' . encode( 'utf-8' => $msg ) . "\n";
 
     if ($err) {
         die $msg if ( $err eq 'die' );
@@ -278,11 +279,19 @@ sub _on_message {
                 $captured_matches = { %$captured_matches, %+ } if ( keys %+ );
             }
 
-            last if ( $hook->{code}->(
-                $self,
-                { %{ $self->{in} } },
-                $captured_matches,
-            ) );
+            my $rv;
+            eval {
+                $rv = $hook->{code}->(
+                    $self,
+                    { %{ $self->{in} } },
+                    $captured_matches,
+                );
+            };
+            if ($@) {
+                warn "$@\n";
+            }
+
+            last if ($rv);
         }
     }
 }
@@ -459,8 +468,9 @@ sub say {
     my $self = shift;
 
     for (@_) {
-        $self->{socket}->print( $_ . "\r\n" );
-        $self->note("<<< $_");
+        my $string = encode( 'utf-8' => $_ );
+        $self->{socket}->print( $string . "\r\n" );
+        $self->note("<<< $string");
     }
     return $self;
 }
