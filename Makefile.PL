@@ -25,6 +25,7 @@ my %WriteMakefileArgs = (
     "DateTime" => 0,
     "DateTime::Format::Human::Duration" => 0,
     "Email::Valid" => 0,
+    "Encode" => 0,
     "File::Grep" => 0,
     "IO::Socket" => 0,
     "IO::Socket::SSL" => 0,
@@ -49,7 +50,7 @@ my %WriteMakefileArgs = (
     "blib" => "1.01",
     "constant" => 0
   },
-  "VERSION" => "1.11",
+  "VERSION" => "1.12",
   "test" => {
     "TESTS" => "t/*.t"
   }
@@ -65,6 +66,7 @@ my %FallbackPrereqs = (
   "DateTime" => 0,
   "DateTime::Format::Human::Duration" => 0,
   "Email::Valid" => 0,
+  "Encode" => 0,
   "File::Grep" => 0,
   "File::Spec" => 0,
   "IO::Handle" => 0,
