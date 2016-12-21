@@ -121,6 +121,9 @@ sub _parent {
 
     eval {
         while ( my $line = $self->{socket}->getline ) {
+            $line =~ s/\003\d{2}(?:,\d{2})?//g; # remove IRC color codes
+            $line =~ tr/\000-\037//d;           # remove all control characters
+
             $self->note($line);
             chomp($line);
 

@@ -1,6 +1,7 @@
 Revision history for Bot::IRC
 
 {{$NEXT}}
+        - Filter IRC color codes and control characters from incoming line text
 
 1.12      2016-12-06 09:15:08-08:00 America/Los_Angeles
         - Improving a little on best practice by having accesstors for vars() and settings()
