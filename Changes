@@ -1,6 +1,8 @@
 Revision history for Bot::IRC
 
 {{$NEXT}}
+
+1.13      2016-12-21 11:02:41-08:00 America/Los_Angeles
         - Filter IRC color codes and control characters from incoming line text
 
 1.12      2016-12-06 09:15:08-08:00 America/Los_Angeles
