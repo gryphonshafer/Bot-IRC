@@ -1,6 +1,7 @@
 package Bot::IRC::Infobot;
 # ABSTRACT: Bot::IRC add classic "infobot" functionality to the bot
 
+use 5.008;
 use strict;
 use warnings;
 

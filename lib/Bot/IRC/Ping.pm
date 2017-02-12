@@ -1,6 +1,7 @@
 package Bot::IRC::Ping;
 # ABSTRACT: Bot::IRC ping the bot and check its health
 
+use 5.008;
 use strict;
 use warnings;
 

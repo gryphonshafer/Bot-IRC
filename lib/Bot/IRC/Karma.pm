@@ -1,6 +1,7 @@
 package Bot::IRC::Karma;
 # ABSTRACT: Bot::IRC track karma for things
 
+use 5.008;
 use strict;
 use warnings;
 

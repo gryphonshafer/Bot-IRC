@@ -1,6 +1,7 @@
 package Bot::IRC::Seen;
 # ABSTRACT: Bot::IRC track when and where users were last seen
 
+use 5.008;
 use strict;
 use warnings;
 
