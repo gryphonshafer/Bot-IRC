@@ -1,7 +1,7 @@
 package Bot::IRC::Greeting;
 # ABSTRACT: Bot::IRC greet joining users to channels
 
-use 5.008;
+use 5.012;
 use strict;
 use warnings;
 

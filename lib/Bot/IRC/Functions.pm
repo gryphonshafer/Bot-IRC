@@ -1,7 +1,7 @@
 package Bot::IRC::Functions;
 # ABSTRACT: Bot::IRC add maybe helpful functions to the bot
 
-use 5.008;
+use 5.012;
 use strict;
 use warnings;
 

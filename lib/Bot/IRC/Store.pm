@@ -1,7 +1,7 @@
 package Bot::IRC::Store;
 # ABSTRACT: Bot::IRC persistent data storage with YAML
 
-use 5.008;
+use 5.012;
 use strict;
 use warnings;
 

@@ -1,7 +1,7 @@
 package Bot::IRC::History;
 # ABSTRACT: Bot::IRC selected channel history dumped to email
 
-use 5.008;
+use 5.012;
 use strict;
 use warnings;
 
