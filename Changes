@@ -1,6 +1,8 @@
 Revision history for Bot::IRC
 
 {{$NEXT}}
+
+1.14      2017-06-17 22:00:44-04:00 America/New_York
         - Bot is slightly smarter about not responding to input that may not
           actually be intended for the bot
         - Added "full_text" input variable
