@@ -4,7 +4,7 @@ Bot::IRC - Yet Another IRC Bot
 
 # VERSION
 
-version 1.13
+version 1.14
 
 [![Build Status](https://travis-ci.org/gryphonshafer/Bot-IRC.svg)](https://travis-ci.org/gryphonshafer/Bot-IRC)
 [![Coverage Status](https://coveralls.io/repos/gryphonshafer/Bot-IRC/badge.png)](https://coveralls.io/r/gryphonshafer/Bot-IRC)
@@ -147,6 +147,19 @@ and `daemon`.
 This should be the last call you make, which will cause your program to operate
 like a Unix service from the command-line. (See [Daemon::Control](https://metacpan.org/pod/Daemon::Control) for
 additional details.)
+
+`run` can optionally be passed a list of strings that will be executed after
+connection to the IRC server. These should be string commands similar to what
+you'd type in an IRC client. For example:
+
+    Bot::IRC->new( connect => { server => 'irc.perl.org' } )->run(
+        '/msg nickserv identify bot_password',
+        '/msg operserv identify bot_password',
+        '/oper bot_username bot_password',
+        '/msg chanserv identify #bot_talk bot_password',
+        '/join #bot_talk',
+        '/msg chanserv op #bot_talk',
+    );
 
 # PLUGINS
 
@@ -299,6 +312,7 @@ The hashref representing the message the hook will have the following keys:
 - `user`: username of the sender of the message
 - `server`: server of the sender of the message
 - `line`: full message line/text
+- `full_text`: text component of the message with nick included
 
 **The return value from the code block is important.** If you return a positive
 value, all additional hooks are skipped because it will be assumed that this
@@ -575,7 +589,7 @@ Gryphon Shafer <gryphon@cpan.org>
 
 # COPYRIGHT AND LICENSE
 
-This software is copyright (c) 2016 by Gryphon Shafer.
+This software is copyright (c) 2017 by Gryphon Shafer.
 
 This is free software; you can redistribute it and/or modify it under
 the same terms as the Perl 5 programming language system itself.
