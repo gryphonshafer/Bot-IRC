@@ -245,7 +245,8 @@ sub _on_message {
         if ( $self->{in}{command} eq 'PRIVMSG' ) {
             $self->{in}{private} = 1 if ( $self->{in}{forum} and $self->{in}{forum} eq $self->{nick} );
             $self->{in}{to_me}   = 1 if (
-                $self->{in}{text} =~ s/^\s*$self->{nick}\b\W*//i or
+                $self->{in}{text} =~ s/^\s*\b$self->{nick}\b[\s\W]*//i or
+                $self->{in}{text} =~ s/[\s\W]*\b$self->{nick}\b[\s\W]*$//i or
                 $self->{in}{private}
             );
         }
@@ -295,11 +296,31 @@ sub _on_message {
                 },
             },
 
+            {
+                when => {
+                    full_text => qr/^\s*$self->{nick}\s*[!\?]\W*$/i,
+                },
+                code => sub {
+                    my ($bot) = @_;
+                    $bot->reply_to('Yes?');
+                },
+            },
+
+            {
+                when => {
+                    text => qr/^(?<word>hello|greetings|hi|good\s+\w+)\W*$/i,
+                },
+                code => sub {
+                    my ( $bot, $in, $m ) = @_;
+                    $bot->reply_to( ucfirst( lc( $m->{word} ) ) . '.' );
+                },
+            },
+
             ( map {
                 {
                     when => $_,
                     code => sub {
-                        my ( $bot, $in ) = @_;
+                        my ($bot) = @_;
                         $bot->reply_to(qq{Sorry. I don't understand. (Try "$self->{nick} help" for help.)});
                     },
                 },
@@ -313,15 +334,6 @@ sub _on_message {
                 },
             ) ),
 
-            {
-                when => {
-                    full_text => qr/^\s*$self->{nick}\s*[!\?]\W*$/i,
-                },
-                code => sub {
-                    my ( $bot, $in ) = @_;
-                    $bot->reply_to('Yes?');
-                },
-            },
         ) {
             my $captured_matches = {};
 
@@ -335,7 +347,7 @@ sub _on_message {
                         { %{ $self->{in} } },
                     ) or
                     (
-                        $self->{in}{$type} and $hook->{when}{$type} and
+                        defined $self->{in}{$type} and defined $hook->{when}{$type} and
                         $self->{in}{$type} eq $hook->{when}{$type}
                     )
                 );
@@ -494,7 +506,7 @@ sub register {
 sub vars {
     my ( $self, $name ) = @_;
     ( $name = lc( substr( ( caller() )[0], length(__PACKAGE__) + 2 ) ) ) =~ s/::/\-/g unless ($name);
-    return $self->{vars}{$name};
+    return ( defined $self->{vars}{$name} ) ? $self->{vars}{$name} : {};
 }
 
 sub settings {
