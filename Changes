@@ -1,6 +1,8 @@
 Revision history for Bot::IRC
 
 {{$NEXT}}
+
+1.17      2017-08-01 15:40:40-07:00 America/Los_Angeles
         - Bot will not respond to "hi" and "good morning" and stuff unless
           talked directly to
         - History fetching and returning by email interface enhancements
