@@ -2,7 +2,7 @@
 use strict;
 use warnings;
 
-use 5.012;
+use 5.014;
 
 use ExtUtils::MakeMaker;
 
@@ -14,7 +14,7 @@ my %WriteMakefileArgs = (
   },
   "DISTNAME" => "Bot-IRC",
   "LICENSE" => "perl",
-  "MIN_PERL_VERSION" => "5.012",
+  "MIN_PERL_VERSION" => "5.014",
   "NAME" => "Bot::IRC",
   "PREREQ_PM" => {
     "Carp" => 0,
@@ -52,7 +52,7 @@ my %WriteMakefileArgs = (
     "blib" => "1.01",
     "constant" => 0
   },
-  "VERSION" => "1.17",
+  "VERSION" => "1.18",
   "test" => {
     "TESTS" => "t/*.t"
   }

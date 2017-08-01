@@ -1,6 +1,8 @@
 Revision history for Bot::IRC
 
 {{$NEXT}}
+        - Set minimum required version to 5.14 because Email::Mailer dependency
+          has that as its minimum required version
 
 1.17      2017-08-01 15:40:40-07:00 America/Los_Angeles
         - Bot will not respond to "hi" and "good morning" and stuff unless

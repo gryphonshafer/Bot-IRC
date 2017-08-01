@@ -1,7 +1,7 @@
 package Bot::IRC;
 # ABSTRACT: Yet Another IRC Bot
 
-use 5.012;
+use 5.014;
 use strict;
 use warnings;
 
