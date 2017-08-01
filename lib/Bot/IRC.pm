@@ -321,7 +321,8 @@ sub _on_message {
 
             {
                 when => {
-                    text => qr/^(?<word>hello|greetings|hi|good\s+\w+)\W*$/i,
+                    to_me => 1,
+                    text  => qr/^(?<word>hello|greetings|hi|good\s+\w+)\W*$/i,
                 },
                 code => sub {
                     my ( $bot, $in, $m ) = @_;
