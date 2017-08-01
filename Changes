@@ -1,6 +1,8 @@
 Revision history for Bot::IRC
 
 {{$NEXT}}
+
+1.18      2017-08-01 16:14:28-07:00 America/Los_Angeles
         - Set minimum required version to 5.14 because Email::Mailer dependency
           has that as its minimum required version
 
