@@ -8,6 +8,7 @@ use warnings;
 use DBI;
 use DBD::SQLite;
 use JSON::XS;
+use Try::Tiny;
 
 # VERSION
 
@@ -45,12 +46,19 @@ sub new {
 sub get {
     my ( $self, $key ) = @_;
     my $namespace = ( caller() )[0];
+    my $value;
 
-    my $sth = $self->{dbh}->prepare(q{
-        SELECT value FROM bot_store WHERE namespace = ? AND key = ?
-    });
-    $sth->execute( $namespace, $key );
-    my $value = $sth->fetchrow_array;
+    try {
+        my $sth = $self->{dbh}->prepare_cached(q{
+            SELECT value FROM bot_store WHERE namespace = ? AND key = ?
+        });
+        $sth->execute( $namespace, $key ) or die $self->{dbh}->errstr;
+        $value = $sth->fetchrow_array;
+        $sth->finish;
+    }
+    catch {
+        warn "Store get error with $namespace (likely an IRC::Store::SQLite issue); key = $key; error = $_\n";
+    };
 
     if ($value) {
         $value = $self->{json}->decode($value) || undef;
@@ -64,13 +72,22 @@ sub set {
     my ( $self, $key, $value ) = @_;
     my $namespace = ( caller() )[0];
 
-    $self->{dbh}->prepare(q{
-        DELETE FROM bot_store WHERE namespace = ? AND key = ?
-    })->execute( $namespace, $key );
+    try {
+        $self->{dbh}->prepare_cached(q{
+            DELETE FROM bot_store WHERE namespace = ? AND key = ?
+        })->execute( $namespace, $key ) or die $self->{dbh}->errstr;
 
-    $self->{dbh}->prepare(q{
-        INSERT INTO bot_store ( namespace, key, value ) VALUES ( ?, ?, ? )
-    })->execute( $namespace, $key, $self->{json}->encode( { value => $value } ) );
+        $self->{dbh}->prepare_cached(q{
+            INSERT INTO bot_store ( namespace, key, value ) VALUES ( ?, ?, ? )
+        })->execute(
+            $namespace,
+            $key,
+            $self->{json}->encode( { value => $value } ),
+        ) or die $self->{dbh}->errstr;
+    }
+    catch {
+        warn "Store set error with $namespace (likely an IRC::Store::SQLite issue); key = $key; error = $_\n";
+    };
 
     return $self;
 }
