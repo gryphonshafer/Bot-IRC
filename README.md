@@ -4,7 +4,7 @@ Bot::IRC - Yet Another IRC Bot
 
 # VERSION
 
-version 1.19
+version 1.20
 
 [![Build Status](https://travis-ci.org/gryphonshafer/Bot-IRC.svg)](https://travis-ci.org/gryphonshafer/Bot-IRC)
 [![Coverage Status](https://coveralls.io/repos/gryphonshafer/Bot-IRC/badge.png)](https://coveralls.io/r/gryphonshafer/Bot-IRC)
@@ -589,7 +589,7 @@ Gryphon Shafer <gryphon@cpan.org>
 
 # COPYRIGHT AND LICENSE
 
-This software is copyright (c) 2017 by Gryphon Shafer.
+This software is copyright (c) 2018 by Gryphon Shafer.
 
 This is free software; you can redistribute it and/or modify it under
 the same terms as the Perl 5 programming language system itself.
