@@ -855,14 +855,16 @@ core plugins. Core plugins are all the plugins that are bundled and
 distributed with L<Bot::IRC>.
 
 =for :list
+* L<Bot::IRC::Ping>
+* L<Bot::IRC::Join>
+* L<Bot::IRC::Seen>
+* L<Bot::IRC::Greeting>
 * L<Bot::IRC::Infobot>
 * L<Bot::IRC::Functions>
 * L<Bot::IRC::Convert>
-* L<Bot::IRC::Join>
-* L<Bot::IRC::Seen>
 * L<Bot::IRC::Karma>
 * L<Bot::IRC::Math>
-* L<Bot::IRC::Greeting>
+* L<Bot::IRC::History>
 
 Some core plugins require a storage plugin. If you don't specify one in your
 plugins list, then the default L<Bot::IRC::Store> will be used, which is

@@ -222,14 +222,16 @@ If you specify ":core" as a plugin name, it will be expanded to load all the
 core plugins. Core plugins are all the plugins that are bundled and
 distributed with [Bot::IRC](https://metacpan.org/pod/Bot::IRC).
 
+- [Bot::IRC::Ping](https://metacpan.org/pod/Bot::IRC::Ping)
+- [Bot::IRC::Join](https://metacpan.org/pod/Bot::IRC::Join)
+- [Bot::IRC::Seen](https://metacpan.org/pod/Bot::IRC::Seen)
+- [Bot::IRC::Greeting](https://metacpan.org/pod/Bot::IRC::Greeting)
 - [Bot::IRC::Infobot](https://metacpan.org/pod/Bot::IRC::Infobot)
 - [Bot::IRC::Functions](https://metacpan.org/pod/Bot::IRC::Functions)
 - [Bot::IRC::Convert](https://metacpan.org/pod/Bot::IRC::Convert)
-- [Bot::IRC::Join](https://metacpan.org/pod/Bot::IRC::Join)
-- [Bot::IRC::Seen](https://metacpan.org/pod/Bot::IRC::Seen)
 - [Bot::IRC::Karma](https://metacpan.org/pod/Bot::IRC::Karma)
 - [Bot::IRC::Math](https://metacpan.org/pod/Bot::IRC::Math)
-- [Bot::IRC::Greeting](https://metacpan.org/pod/Bot::IRC::Greeting)
+- [Bot::IRC::History](https://metacpan.org/pod/Bot::IRC::History)
 
 Some core plugins require a storage plugin. If you don't specify one in your
 plugins list, then the default [Bot::IRC::Store](https://metacpan.org/pod/Bot::IRC::Store) will be used, which is
