@@ -85,7 +85,7 @@ methods. These operate just like you would expect.
 
 =head2 get
 
-    my $score = $bot->store->set('user')->{score};
+    my $score = $bot->store->get('user')->{score};
 
 =head1 PSEUDO SUB-CLASSES
 
