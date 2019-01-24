@@ -477,10 +477,10 @@ sub hooks {
 }
 
 sub helps {
-    my $self = shift;
+    my ( $self, @input ) = @_;
 
     try {
-        $self->{helps} = { %{ $self->{helps} }, @_ };
+        $self->{helps} = { %{ $self->{helps} }, @input };
     }
     catch {
         $self->note('Plugin helps called but not properly implemented');
