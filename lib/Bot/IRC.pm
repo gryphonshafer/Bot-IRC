@@ -137,6 +137,9 @@ sub _parent {
     my @lines;
 
     try {
+        $self->say("USER $self->{nick} 0 * :$self->{connect}{name}");
+        $self->say("NICK $self->{nick}");
+
         while ( my $line = $self->{socket}->getline ) {
             $line =~ s/\003\d{2}(?:,\d{2})?//g; # remove IRC color codes
             $line =~ tr/\000-\037//d;           # remove all control characters
@@ -154,11 +157,6 @@ sub _parent {
                 elsif ( $line =~ /^ERROR\s/ ) {
                     warn "$line\n";
                     $device->daemon->do_stop;
-                }
-                elsif ( not $session->{user} ) {
-                    $self->say("USER $self->{nick} 0 * :$self->{connect}{name}");
-                    $self->say("NICK $self->{nick}");
-                    $session->{user} = 1;
                 }
                 elsif ( $line =~ /^:\S+\s433\s/ ) {
                     $self->nick( $self->{nick} . '_' );
