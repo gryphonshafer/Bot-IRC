@@ -60,6 +60,9 @@ sub run {
         SSL_verify_mode => SSL_VERIFY_NONE,
     ) or die $!;
 
+    $self->{socket}->print("USER $self->{nick} 0 * :$self->{connect}{name}\r\n");
+    $self->{socket}->print("NICK $self->{nick}\r\n");
+
     try {
         $self->{device} = Daemon::Device->new(
             parent     => \&_parent,
@@ -156,8 +159,8 @@ sub _parent {
                     $device->daemon->do_stop;
                 }
                 elsif ( not $session->{user} ) {
-                    $self->say("USER $self->{nick} 0 * :$self->{connect}{name}");
-                    $self->say("NICK $self->{nick}");
+                    $self->note("<<< USER $self->{nick} 0 * :$self->{connect}{name}\r\n");
+                    $self->note("<<< NICK $self->{nick}\r\n");
                     $session->{user} = 1;
                 }
                 elsif ( $line =~ /^:\S+\s433\s/ ) {
