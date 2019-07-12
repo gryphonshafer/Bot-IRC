@@ -45,6 +45,7 @@ version 1.24
         vars => {
             store => 'bot.yaml',
         },
+        send_user_nick => 'on_parent', # or 'on_connect' or 'on_reply'
     );
 
     $bot->load( 'Infobot', 'Karma' );
@@ -141,6 +142,17 @@ connect to the server over SSL.
 Read more about plugins below for more information about `plugins` and `vars`.
 Consult [Daemon::Device](https://metacpan.org/pod/Daemon::Device) and [Daemon::Control](https://metacpan.org/pod/Daemon::Control) for more details about `spawn`
 and `daemon`.
+
+There's also an optional `send_user_nick` parameter, which you probably won't
+need to use, which defines when the bot will send the `USER` and initial
+`NICK` commands to the IRC server. There are 3 options: `on_connect`,
+`on_parent` (the default), and `on_reply`. `on_connect` sends the `USER`
+and initial `NICK` immediately upon establishing a connection to the IRC
+server, prior to the parent runtime loop and prior to children creation.
+`on_parent` (the default) sends the 2 commands within the parent runtime loop
+prior to any responses from the IRC server. `on_reply` (the only option in
+versions <= 1.23 of this module) sends the 2 commands after the IRC server
+replies with some sort of content after connection.
 
 ## run
 
@@ -593,7 +605,7 @@ Gryphon Shafer <gryphon@cpan.org>
 
 # COPYRIGHT AND LICENSE
 
-This software is copyright (c) 2018 by Gryphon Shafer.
+This software is copyright (c) 2019 by Gryphon Shafer.
 
 This is free software; you can redistribute it and/or modify it under
 the same terms as the Perl 5 programming language system itself.

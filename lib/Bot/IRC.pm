@@ -41,6 +41,13 @@ sub new {
     $self->{helps}  = {};
     $self->{loaded} = {};
 
+    $self->{send_user_nick} ||= 'on_parent';
+    croak('"send_user_nick" optional value set to invalid value') if (
+        $self->{send_user_nick} ne 'on_connect' and
+        $self->{send_user_nick} ne 'on_parent' and
+        $self->{send_user_nick} ne 'on_reply'
+    );
+
     $self->load(
         ( ref $self->{plugins} eq 'ARRAY' ) ? @{ $self->{plugins} } : $self->{plugins}
     ) if ( $self->{plugins} );
@@ -60,8 +67,10 @@ sub run {
         SSL_verify_mode => SSL_VERIFY_NONE,
     ) or die $!;
 
-    $self->{socket}->print("USER $self->{nick} 0 * :$self->{connect}{name}\r\n");
-    $self->{socket}->print("NICK $self->{nick}\r\n");
+    if ( $self->{send_user_nick} eq 'on_connect' ) {
+        $self->{socket}->print("USER $self->{nick} 0 * :$self->{connect}{name}\r\n");
+        $self->{socket}->print("NICK $self->{nick}\r\n");
+    }
 
     try {
         $self->{device} = Daemon::Device->new(
@@ -140,6 +149,11 @@ sub _parent {
     my @lines;
 
     try {
+        if ( $self->{send_user_nick} eq 'on_parent' ) {
+            $self->say("USER $self->{nick} 0 * :$self->{connect}{name}");
+            $self->say("NICK $self->{nick}");
+        }
+
         while ( my $line = $self->{socket}->getline ) {
             $line =~ s/\003\d{2}(?:,\d{2})?//g; # remove IRC color codes
             $line =~ tr/\000-\037//d;           # remove all control characters
@@ -159,8 +173,14 @@ sub _parent {
                     $device->daemon->do_stop;
                 }
                 elsif ( not $session->{user} ) {
-                    $self->note("<<< USER $self->{nick} 0 * :$self->{connect}{name}\r\n");
-                    $self->note("<<< NICK $self->{nick}\r\n");
+                    if ( $self->{send_user_nick} eq 'on_reply' ) {
+                        $self->say("USER $self->{nick} 0 * :$self->{connect}{name}");
+                        $self->say("NICK $self->{nick}");
+                    }
+                    elsif ( $self->{send_user_nick} eq 'on_connect' ) {
+                        $self->note("<<< USER $self->{nick} 0 * :$self->{connect}{name}\r\n");
+                        $self->note("<<< NICK $self->{nick}\r\n");
+                    }
                     $session->{user} = 1;
                 }
                 elsif ( $line =~ /^:\S+\s433\s/ ) {
@@ -693,6 +713,7 @@ __END__
         vars => {
             store => 'bot.yaml',
         },
+        send_user_nick => 'on_parent', # or 'on_connect' or 'on_reply'
     );
 
     $bot->load( 'Infobot', 'Karma' );
@@ -789,6 +810,17 @@ connect to the server over SSL.
 Read more about plugins below for more information about C<plugins> and C<vars>.
 Consult L<Daemon::Device> and L<Daemon::Control> for more details about C<spawn>
 and C<daemon>.
+
+There's also an optional C<send_user_nick> parameter, which you probably won't
+need to use, which defines when the bot will send the C<USER> and initial
+C<NICK> commands to the IRC server. There are 3 options: C<on_connect>,
+C<on_parent> (the default), and C<on_reply>. C<on_connect> sends the C<USER>
+and initial C<NICK> immediately upon establishing a connection to the IRC
+server, prior to the parent runtime loop and prior to children creation.
+C<on_parent> (the default) sends the 2 commands within the parent runtime loop
+prior to any responses from the IRC server. C<on_reply> (the only option in
+versions <= 1.23 of this module) sends the 2 commands after the IRC server
+replies with some sort of content after connection.
 
 =head2 run
 
