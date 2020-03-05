@@ -1262,9 +1262,7 @@ You can look for additional information at:
 
 =for :list
 * L<GitHub|https://github.com/gryphonshafer/Bot-IRC>
-* L<CPAN|http://search.cpan.org/dist/Bot-IRC>
 * L<MetaCPAN|https://metacpan.org/pod/Bot::IRC>
-* L<AnnoCPAN|http://annocpan.org/dist/Bot-IRC>
 * L<Travis CI|https://travis-ci.org/gryphonshafer/Bot-IRC>
 * L<Coveralls|https://coveralls.io/r/gryphonshafer/Bot-IRC>
 * L<CPANTS|http://cpants.cpanauthors.org/dist/Bot-IRC>
