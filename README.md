@@ -4,7 +4,7 @@ Bot::IRC - Yet Another IRC Bot
 
 # VERSION
 
-version 1.25
+version 1.26
 
 [![Build Status](https://travis-ci.org/gryphonshafer/Bot-IRC.svg)](https://travis-ci.org/gryphonshafer/Bot-IRC)
 [![Coverage Status](https://coveralls.io/repos/gryphonshafer/Bot-IRC/badge.png)](https://coveralls.io/r/gryphonshafer/Bot-IRC)
@@ -89,7 +89,7 @@ above code into a "bot.pl" file. You start the bot with:
     ./bot.pl start
 
 This will startup the bot. Command-line commands include: start, stop, restart,
-reload, status, help, and so on. (See [Daemon::Control](https://metacpan.org/pod/Daemon::Control) for more details.)
+reload, status, help, and so on. (See [Daemon::Control](https://metacpan.org/pod/Daemon%3A%3AControl) for more details.)
 
 ## Pre-Forking Device
 
@@ -108,7 +108,7 @@ for things like PID file, log files, and so on.
         },
     )->run;
 
-(See [Daemon::Device](https://metacpan.org/pod/Daemon::Device) for more details.)
+(See [Daemon::Device](https://metacpan.org/pod/Daemon%3A%3ADevice) for more details.)
 
 # MAIN METHODS
 
@@ -143,7 +143,7 @@ connect to the server over SSL. `ipv6` is also true/false setting for whether
 to forcibly connect to the server over IPv6.
 
 Read more about plugins below for more information about `plugins` and `vars`.
-Consult [Daemon::Device](https://metacpan.org/pod/Daemon::Device) and [Daemon::Control](https://metacpan.org/pod/Daemon::Control) for more details about `spawn`
+Consult [Daemon::Device](https://metacpan.org/pod/Daemon%3A%3ADevice) and [Daemon::Control](https://metacpan.org/pod/Daemon%3A%3AControl) for more details about `spawn`
 and `daemon`.
 
 There's also an optional `send_user_nick` parameter, which you probably won't
@@ -160,7 +160,7 @@ replies with some sort of content after connection.
 ## run
 
 This should be the last call you make, which will cause your program to operate
-like a Unix service from the command-line. (See [Daemon::Control](https://metacpan.org/pod/Daemon::Control) for
+like a Unix service from the command-line. (See [Daemon::Control](https://metacpan.org/pod/Daemon%3A%3AControl) for
 additional details.)
 
 `run` can optionally be passed a list of strings that will be executed after
@@ -235,23 +235,23 @@ convention is to do so via the `vars` key to `new()`.
 
 If you specify ":core" as a plugin name, it will be expanded to load all the
 core plugins. Core plugins are all the plugins that are bundled and
-distributed with [Bot::IRC](https://metacpan.org/pod/Bot::IRC).
+distributed with [Bot::IRC](https://metacpan.org/pod/Bot%3A%3AIRC).
 
-- [Bot::IRC::Ping](https://metacpan.org/pod/Bot::IRC::Ping)
-- [Bot::IRC::Join](https://metacpan.org/pod/Bot::IRC::Join)
-- [Bot::IRC::Seen](https://metacpan.org/pod/Bot::IRC::Seen)
-- [Bot::IRC::Greeting](https://metacpan.org/pod/Bot::IRC::Greeting)
-- [Bot::IRC::Infobot](https://metacpan.org/pod/Bot::IRC::Infobot)
-- [Bot::IRC::Functions](https://metacpan.org/pod/Bot::IRC::Functions)
-- [Bot::IRC::Convert](https://metacpan.org/pod/Bot::IRC::Convert)
-- [Bot::IRC::Karma](https://metacpan.org/pod/Bot::IRC::Karma)
-- [Bot::IRC::Math](https://metacpan.org/pod/Bot::IRC::Math)
-- [Bot::IRC::History](https://metacpan.org/pod/Bot::IRC::History)
+- [Bot::IRC::Ping](https://metacpan.org/pod/Bot%3A%3AIRC%3A%3APing)
+- [Bot::IRC::Join](https://metacpan.org/pod/Bot%3A%3AIRC%3A%3AJoin)
+- [Bot::IRC::Seen](https://metacpan.org/pod/Bot%3A%3AIRC%3A%3ASeen)
+- [Bot::IRC::Greeting](https://metacpan.org/pod/Bot%3A%3AIRC%3A%3AGreeting)
+- [Bot::IRC::Infobot](https://metacpan.org/pod/Bot%3A%3AIRC%3A%3AInfobot)
+- [Bot::IRC::Functions](https://metacpan.org/pod/Bot%3A%3AIRC%3A%3AFunctions)
+- [Bot::IRC::Convert](https://metacpan.org/pod/Bot%3A%3AIRC%3A%3AConvert)
+- [Bot::IRC::Karma](https://metacpan.org/pod/Bot%3A%3AIRC%3A%3AKarma)
+- [Bot::IRC::Math](https://metacpan.org/pod/Bot%3A%3AIRC%3A%3AMath)
+- [Bot::IRC::History](https://metacpan.org/pod/Bot%3A%3AIRC%3A%3AHistory)
 
 Some core plugins require a storage plugin. If you don't specify one in your
-plugins list, then the default [Bot::IRC::Store](https://metacpan.org/pod/Bot::IRC::Store) will be used, which is
+plugins list, then the default [Bot::IRC::Store](https://metacpan.org/pod/Bot%3A%3AIRC%3A%3AStore) will be used, which is
 probably not what you want (for performance reasons). Try
-[Bot::IRC::Store::SQLite](https://metacpan.org/pod/Bot::IRC::Store::SQLite) instead.
+[Bot::IRC::Store::SQLite](https://metacpan.org/pod/Bot%3A%3AIRC%3A%3AStore%3A%3ASQLite) instead.
 
     plugins => [
         'Store::SQLite',
@@ -594,9 +594,7 @@ use `note`:
 You can look for additional information at:
 
 - [GitHub](https://github.com/gryphonshafer/Bot-IRC)
-- [CPAN](http://search.cpan.org/dist/Bot-IRC)
 - [MetaCPAN](https://metacpan.org/pod/Bot::IRC)
-- [AnnoCPAN](http://annocpan.org/dist/Bot-IRC)
 - [Travis CI](https://travis-ci.org/gryphonshafer/Bot-IRC)
 - [Coveralls](https://coveralls.io/r/gryphonshafer/Bot-IRC)
 - [CPANTS](http://cpants.cpanauthors.org/dist/Bot-IRC)
@@ -608,7 +606,7 @@ Gryphon Shafer <gryphon@cpan.org>
 
 # COPYRIGHT AND LICENSE
 
-This software is copyright (c) 2019 by Gryphon Shafer.
+This software is copyright (c) 2020 by Gryphon Shafer.
 
 This is free software; you can redistribute it and/or modify it under
 the same terms as the Perl 5 programming language system itself.
