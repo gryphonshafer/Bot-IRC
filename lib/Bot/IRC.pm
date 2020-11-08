@@ -7,7 +7,7 @@ use warnings;
 
 use Carp 'croak';
 use Daemon::Device;
-use IO::Socket;
+use IO::Socket::IP -register;
 use IO::Socket::SSL;
 use Time::Crontab;
 use Date::Format 'time2str';
@@ -59,10 +59,11 @@ sub run {
     my $self     = shift;
     my $commands = \@_;
 
-    $self->{socket} = ( ( $self->{connect}{ssl} ) ? 'IO::Socket::SSL' : 'IO::Socket::INET' )->new(
+    $self->{socket} = ( ( $self->{connect}{ssl} ) ? 'IO::Socket::SSL' : 'IO::Socket::IP' )->new(
         PeerAddr        => $self->{connect}{server},
         PeerPort        => $self->{connect}{port},
         Proto           => 'tcp',
+        Family          => ( $self->{connect}{ipv6} ? AF_INET6 : AF_INET ),
         Type            => SOCK_STREAM,
         SSL_verify_mode => SSL_VERIFY_NONE,
     ) or die $!;
@@ -706,6 +707,7 @@ __END__
             name   => 'Yet Another IRC Bot',
             join   => [ '#test', '#perl' ],
             ssl    => 0,
+            ipv6   => 0,
         },
         plugins => [
             ':core',
@@ -797,6 +799,7 @@ set or added to through other methods off the instantiated object.
             name   => 'Yet Another IRC Bot',
             join   => [ '#test', '#perl' ],
             ssl    => 0,
+            ipv6   => 0,
         },
         plugins => [],
         vars    => {},
@@ -805,7 +808,8 @@ set or added to through other methods off the instantiated object.
 C<spawn> will default to 2. Under C<connect>, C<port> will default to 6667.
 C<join> can be either a string or an arrayref of strings representing channels
 to join after connnecting. C<ssl> is a true/false setting for whether to
-connect to the server over SSL.
+connect to the server over SSL. C<ipv6> is also true/false setting for whether
+to forcibly connect to the server over IPv6.
 
 Read more about plugins below for more information about C<plugins> and C<vars>.
 Consult L<Daemon::Device> and L<Daemon::Control> for more details about C<spawn>

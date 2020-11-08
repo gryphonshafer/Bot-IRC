@@ -38,6 +38,7 @@ version 1.25
             name   => 'Yet Another IRC Bot',
             join   => [ '#test', '#perl' ],
             ssl    => 0,
+            ipv6   => 0,
         },
         plugins => [
             ':core',
@@ -129,6 +130,7 @@ set or added to through other methods off the instantiated object.
             name   => 'Yet Another IRC Bot',
             join   => [ '#test', '#perl' ],
             ssl    => 0,
+            ipv6   => 0,
         },
         plugins => [],
         vars    => {},
@@ -137,7 +139,8 @@ set or added to through other methods off the instantiated object.
 `spawn` will default to 2. Under `connect`, `port` will default to 6667.
 `join` can be either a string or an arrayref of strings representing channels
 to join after connnecting. `ssl` is a true/false setting for whether to
-connect to the server over SSL.
+connect to the server over SSL. `ipv6` is also true/false setting for whether
+to forcibly connect to the server over IPv6.
 
 Read more about plugins below for more information about `plugins` and `vars`.
 Consult [Daemon::Device](https://metacpan.org/pod/Daemon::Device) and [Daemon::Control](https://metacpan.org/pod/Daemon::Control) for more details about `spawn`
