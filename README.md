@@ -4,10 +4,10 @@ Bot::IRC - Yet Another IRC Bot
 
 # VERSION
 
-version 1.26
+version 1.27
 
-[![Build Status](https://travis-ci.org/gryphonshafer/Bot-IRC.svg)](https://travis-ci.org/gryphonshafer/Bot-IRC)
-[![Coverage Status](https://coveralls.io/repos/gryphonshafer/Bot-IRC/badge.png)](https://coveralls.io/r/gryphonshafer/Bot-IRC)
+[![build](https://github.com/gryphonshafer/Bot-IRC/workflows/build/badge.svg)](https://github.com/gryphonshafer/Bot-IRC/actions?query=workflow%3Abuild)
+[![codecov](https://codecov.io/gh/gryphonshafer/Bot-IRC/graph/badge.svg)](https://codecov.io/gh/gryphonshafer/Bot-IRC)
 
 # SYNOPSIS
 
@@ -595,8 +595,8 @@ You can look for additional information at:
 
 - [GitHub](https://github.com/gryphonshafer/Bot-IRC)
 - [MetaCPAN](https://metacpan.org/pod/Bot::IRC)
-- [Travis CI](https://travis-ci.org/gryphonshafer/Bot-IRC)
-- [Coveralls](https://coveralls.io/r/gryphonshafer/Bot-IRC)
+- [GitHub Actions](https://github.com/gryphonshafer/Bot-IRC/actions)
+- [Codecov](https://codecov.io/gh/gryphonshafer/Bot-IRC)
 - [CPANTS](http://cpants.cpanauthors.org/dist/Bot-IRC)
 - [CPAN Testers](http://www.cpantesters.org/distro/T/Bot-IRC.html)
 
@@ -606,7 +606,7 @@ Gryphon Shafer <gryphon@cpan.org>
 
 # COPYRIGHT AND LICENSE
 
-This software is copyright (c) 2020 by Gryphon Shafer.
+This software is copyright (c) 2021 by Gryphon Shafer.
 
 This is free software; you can redistribute it and/or modify it under
 the same terms as the Perl 5 programming language system itself.

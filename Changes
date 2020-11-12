@@ -1,6 +1,8 @@
 Revision history for Bot::IRC
 
 {{$NEXT}}
+        - Migrate Travis CI and Coveralls to GitHub Actions and Codecov
+        - Update copyright year
 
 1.26      2020-11-08 12:18:30-08:00 America/Los_Angeles
         - IPv6 support via IP instead of INET (Thank you: Bruno Meneguele)

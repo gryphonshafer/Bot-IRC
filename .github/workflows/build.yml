@@ -6,14 +6,14 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        perl-version: [ 32, 30, 28, 26, 24, 22, 20, 18, 16, 14, 12, 10 ]
+        perl-version: [ 32, 30, 28, 26, 24, 22, 20, 18, 16, 14 ]
     container:
       image: perldocker/perl-tester:5.${{ matrix.perl-version }}
     steps:
       - uses: actions/checkout@v2
       - uses: perl-actions/install-with-cpanm@v1
         env:
-          PERL_CPANM_OPT: --from https://cpan.metacpan.org/ --quiet --notest --force --skip-satisfied
+          PERL_CPANM_OPT: --from https://cpan.metacpan.org/ --notest --force --skip-satisfied
         with:
           sudo: false
           args: --with-develop --with-all-features --installdeps .
