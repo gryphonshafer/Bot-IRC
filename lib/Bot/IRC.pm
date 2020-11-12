@@ -673,8 +673,8 @@ __END__
 =begin :badges
 
 =for markdown
-[![Build Status](https://travis-ci.org/gryphonshafer/Bot-IRC.svg)](https://travis-ci.org/gryphonshafer/Bot-IRC)
-[![Coverage Status](https://coveralls.io/repos/gryphonshafer/Bot-IRC/badge.png)](https://coveralls.io/r/gryphonshafer/Bot-IRC)
+[![build](https://github.com/gryphonshafer/Bot-IRC/workflows/build/badge.svg)](https://github.com/gryphonshafer/Bot-IRC/actions?query=workflow%3Abuild)
+[![codecov](https://codecov.io/gh/gryphonshafer/Bot-IRC/graph/badge.svg)](https://codecov.io/gh/gryphonshafer/Bot-IRC)
 
 =end :badges
 
@@ -1267,8 +1267,8 @@ You can look for additional information at:
 =for :list
 * L<GitHub|https://github.com/gryphonshafer/Bot-IRC>
 * L<MetaCPAN|https://metacpan.org/pod/Bot::IRC>
-* L<Travis CI|https://travis-ci.org/gryphonshafer/Bot-IRC>
-* L<Coveralls|https://coveralls.io/r/gryphonshafer/Bot-IRC>
+* L<GitHub Actions|https://github.com/gryphonshafer/Bot-IRC/actions>
+* L<Codecov|https://codecov.io/gh/gryphonshafer/Bot-IRC>
 * L<CPANTS|http://cpants.cpanauthors.org/dist/Bot-IRC>
 * L<CPAN Testers|http://www.cpantesters.org/distro/T/Bot-IRC.html>
 
