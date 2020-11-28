@@ -11,7 +11,6 @@ use IO::Socket::IP -register;
 use IO::Socket::SSL;
 use Time::Crontab;
 use Date::Format 'time2str';
-use Encode 'encode';
 use Try::Tiny;
 
 # VERSION
@@ -97,7 +96,7 @@ sub run {
 sub note {
     my ( $self, $msg, $err ) = @_;
     chomp($msg);
-    $msg = '[' . time2str( '%d/%b/%Y:%H:%M:%S %z', time() ) . '] ' . encode( 'utf-8' => $msg ) . "\n";
+    $msg = '[' . time2str( '%d/%b/%Y:%H:%M:%S %z', time() ) . '] ' . $msg . "\n";
 
     if ($err) {
         die $msg if ( $err eq 'die' );
@@ -595,7 +594,7 @@ sub say {
     my $self = shift;
 
     for (@_) {
-        my $string = encode( 'utf-8' => $_ );
+        my $string = $_;
         $self->{socket}->print( $string . "\r\n" );
         $self->note("<<< $string");
     }

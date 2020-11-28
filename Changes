@@ -1,6 +1,7 @@
 Revision history for Bot::IRC
 
 {{$NEXT}}
+        - De-auto-encode to resolve #8
         - Migrate Travis CI and Coveralls to GitHub Actions and Codecov
         - Update copyright year
 
