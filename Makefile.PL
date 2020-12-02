@@ -13,7 +13,7 @@ my %WriteMakefileArgs = (
     "ExtUtils::MakeMaker" => 0
   },
   "DISTNAME" => "Bot-IRC",
-  "LICENSE" => "perl",
+  "LICENSE" => "artistic_2",
   "MIN_PERL_VERSION" => "5.014",
   "NAME" => "Bot::IRC",
   "PREREQ_PM" => {
@@ -50,7 +50,7 @@ my %WriteMakefileArgs = (
     "Test::Output" => 0,
     "constant" => 0
   },
-  "VERSION" => "1.27",
+  "VERSION" => "1.28",
   "test" => {
     "TESTS" => "t/*.t"
   }
