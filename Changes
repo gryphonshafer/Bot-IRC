@@ -1,6 +1,8 @@
 Revision history for Bot::IRC
 
 {{$NEXT}}
+
+1.28      2021-01-11 13:54:41-08:00 America/Los_Angeles
         - Migrate to Test2::V0 and add exact
         - Improve .gitignore file
         - License migrate to Artistic 2.0
