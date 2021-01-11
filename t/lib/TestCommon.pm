@@ -1,7 +1,8 @@
 package TestCommon;
 
 use Test2::Mock;
-use exact -class;
+use exact;
+use exact::class;
 use Bot::IRC::Store;
 use Bot::IRC;
 

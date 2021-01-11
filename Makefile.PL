@@ -46,9 +46,10 @@ my %WriteMakefileArgs = (
     "Test2::V0" => 0,
     "Test::Lib" => 0,
     "Test::More" => 0,
-    "Test::Output" => 0
+    "Test::Output" => 0,
+    "exact::class" => 0
   },
-  "VERSION" => "1.28",
+  "VERSION" => "1.29",
   "test" => {
     "TESTS" => "t/*.t"
   }
@@ -82,6 +83,7 @@ my %FallbackPrereqs = (
   "Time::Crontab" => 0,
   "YAML::XS" => 0,
   "exact" => 0,
+  "exact::class" => 0,
   "strict" => 0,
   "warnings" => 0
 );
