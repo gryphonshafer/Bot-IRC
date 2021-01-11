@@ -1,6 +1,8 @@
 Revision history for Bot::IRC
 
 {{$NEXT}}
+
+1.29      2021-01-11 14:04:24-08:00 America/Los_Angeles
         - Patch to fix exact::class missing auto-dependency
 
 1.28      2021-01-11 13:54:41-08:00 America/Los_Angeles
