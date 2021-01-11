@@ -12,7 +12,9 @@ has bot        => undef;
 has hook_ref   => undef;
 has replies    => [];
 
-around new => sub ( $orig, $self ) {
+around new => sub {
+    my ( $orig, $self ) = @_;
+
     $self = $orig->($self);
 
     $self->mock_store(
@@ -38,7 +40,8 @@ around new => sub ( $orig, $self ) {
     return $self;
 };
 
-sub hook ( $self, $in, $m ) {
+sub hook {
+    my ( $self, $in, $m ) = @_;
     $self->hook_ref->( $self->bot, $in, $m );
 }
 
