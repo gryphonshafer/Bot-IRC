@@ -1,14 +1,12 @@
 package Bot::IRC::Store::SQLite;
 # ABSTRACT: Bot::IRC persistent data storage with SQLite
 
-use 5.012;
-use strict;
-use warnings;
+use 5.014;
+use exact;
 
 use DBI;
 use DBD::SQLite;
 use JSON::XS;
-use Try::Tiny;
 
 # VERSION
 

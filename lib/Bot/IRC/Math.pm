@@ -1,9 +1,8 @@
 package Bot::IRC::Math;
 # ABSTRACT: Bot::IRC evaluate math expressions and return results
 
-use 5.012;
-use strict;
-use warnings;
+use 5.014;
+use exact;
 
 use Math::Expression;
 

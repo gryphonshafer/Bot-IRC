@@ -1,15 +1,14 @@
 package Bot::IRC::History;
 # ABSTRACT: Bot::IRC selected channel history dumped to email
 
-use 5.012;
-use strict;
-use warnings;
+use 5.014;
+use exact;
 
+use Date::Format 'time2str';
+use Date::Parse 'str2time';
+use Email::Mailer;
 use Email::Valid;
 use File::Grep 'fgrep';
-use Date::Parse 'str2time';
-use Date::Format 'time2str';
-use Email::Mailer;
 
 # VERSION
 

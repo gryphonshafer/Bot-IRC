@@ -1,6 +1,7 @@
 Revision history for Bot::IRC
 
 {{$NEXT}}
+        - Migrate to Test2::V0 and add exact
         - Improve .gitignore file
         - License migrate to Artistic 2.0
 

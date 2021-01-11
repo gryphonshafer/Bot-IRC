@@ -1,9 +1,8 @@
 package Bot::IRC::Join;
 # ABSTRACT: Bot::IRC join and part channels and remember channels state
 
-use 5.012;
-use strict;
-use warnings;
+use 5.014;
+use exact;
 
 # VERSION
 

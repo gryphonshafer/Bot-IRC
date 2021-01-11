@@ -2,16 +2,13 @@ package Bot::IRC;
 # ABSTRACT: Yet Another IRC Bot
 
 use 5.014;
-use strict;
-use warnings;
+use exact;
 
-use Carp 'croak';
 use Daemon::Device;
+use Date::Format 'time2str';
 use IO::Socket::IP -register;
 use IO::Socket::SSL;
 use Time::Crontab;
-use Date::Format 'time2str';
-use Try::Tiny;
 
 # VERSION
 

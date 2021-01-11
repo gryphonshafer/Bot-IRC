@@ -1,9 +1,8 @@
 package Bot::IRC::Greeting;
 # ABSTRACT: Bot::IRC greet joining users to channels
 
-use 5.012;
-use strict;
-use warnings;
+use 5.014;
+use exact;
 
 use DateTime;
 use DateTime::Format::Human::Duration;

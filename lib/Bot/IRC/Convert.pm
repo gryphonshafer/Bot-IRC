@@ -1,11 +1,10 @@
 package Bot::IRC::Convert;
 # ABSTRACT: Bot::IRC convert units of amounts
 
-use 5.012;
-use strict;
-use warnings;
+use 5.014;
+use exact;
 
-use Math::Units qw(convert);
+use Math::Units 'convert';
 
 # VERSION
 
