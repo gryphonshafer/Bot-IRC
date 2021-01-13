@@ -1,7 +1,6 @@
 use Test2::V0;
 use Test::Lib;
 use TestCommon;
-
 use Bot::IRC::Infobot;
 
 my $c = TestCommon->new;

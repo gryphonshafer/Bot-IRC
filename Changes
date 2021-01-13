@@ -1,6 +1,7 @@
 Revision history for Bot::IRC
 
 {{$NEXT}}
+        - Set function test to have explicit srand so crypt results are consistent
 
 1.30      2021-01-11 14:39:40-08:00 America/Los_Angeles
         - Patch to signature failure in Perl 5.18 and lower

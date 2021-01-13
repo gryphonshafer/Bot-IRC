@@ -1,4 +1,4 @@
-use Test2::V0;
+use Test2::V0 -srand => 20201025;
 use Test::Lib;
 use TestCommon;
 use Bot::IRC::Functions;
@@ -16,7 +16,7 @@ is( $c->replies, [
     ['"c" has a numerical value of 99.'],
     ['99 has a character value of "c".'],
     ['The ROT13 of your input is "dbc".'],
-    ['The crypt value of your input is "gwIkzmcjaGSMo".'],
+    ['The crypt value of your input is "ijnkUIPeIgdfA".'],
 ], 'ord text' );
 
 done_testing;
