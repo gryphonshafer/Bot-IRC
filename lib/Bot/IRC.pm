@@ -84,7 +84,8 @@ sub run {
         );
     }
     catch {
-        croak("Daemon device instantiation failure: $_");
+        my $e = $_ || $@;
+        croak("Daemon device instantiation failure: $e");
     };
 
     $self->{device}->run;
@@ -134,7 +135,8 @@ sub _parent {
                 $_->{code}->($self);
             }
             catch {
-                warn "Tick execution failure: $_\n";
+                my $e = $_ || $@;
+                warn "Tick execution failure: $e\n";
             };
         }
     };
@@ -211,7 +213,8 @@ sub _parent {
         }
     }
     catch {
-        warn "Daemon parent loop failure: $_\n";
+        my $e = $_ || $@;
+        warn "Daemon parent loop failure: $e\n";
         kill( 'KILL', $_ ) for ( @{ $device->children } );
     };
 }
@@ -398,7 +401,8 @@ sub _on_message {
                 );
             }
             catch {
-                warn "Plugin hook execution failure: $_\n";
+                my $e = $_ || $@;
+                warn "Plugin hook execution failure: $e\n";
             };
 
             last if ($rv);

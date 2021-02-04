@@ -55,7 +55,8 @@ sub get {
         $sth->finish;
     }
     catch {
-        warn "Store get error with $namespace (likely an IRC::Store::SQLite issue); key = $key; error = $_\n";
+        my $e = $_ || $@;
+        warn "Store get error with $namespace (likely an IRC::Store::SQLite issue); key = $key; error = $e\n";
     };
 
     if ($value) {
@@ -84,7 +85,8 @@ sub set {
         ) or die $self->{dbh}->errstr;
     }
     catch {
-        warn "Store set error with $namespace (likely an IRC::Store::SQLite issue); key = $key; error = $_\n";
+        my $e = $_ || $@;
+        warn "Store set error with $namespace (likely an IRC::Store::SQLite issue); key = $key; error = $e\n";
     };
 
     return $self;

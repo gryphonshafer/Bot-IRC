@@ -1,6 +1,7 @@
 Revision history for Bot::IRC
 
 {{$NEXT}}
+        - Pre-support for exact v1.15 try implementation switch
 
 1.32      2021-01-13 11:06:00-08:00 America/Los_Angeles
         - Override some minimum version reqs in dist.ini
