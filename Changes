@@ -1,6 +1,8 @@
 Revision history for Bot::IRC
 
 {{$NEXT}}
+
+1.34      2021-02-06 10:03:13-08:00 America/Los_Angeles
         - Eval 001 regardless of return location
 
 1.33      2021-02-04 14:42:22-08:00 America/Los_Angeles
