@@ -161,17 +161,7 @@ sub _parent {
             chomp($line);
 
             if ( not $session->{established} ) {
-                if ( $line =~ /^ERROR.+onnect\w+ too fast/ ) {
-                    warn "$line\n";
-                    warn "Sleeping 20 and retrying...\n";
-                    sleep 20;
-                    $device->daemon->do_restart;
-                }
-                elsif ( $line =~ /^ERROR\s/ ) {
-                    warn "$line\n";
-                    $device->daemon->do_stop;
-                }
-                elsif ( not $session->{user} ) {
+                if ( not $session->{user} ) {
                     if ( $self->{send_user_nick} eq 'on_reply' ) {
                         $self->say("USER $self->{nick} 0 * :$self->{connect}{name}");
                         $self->say("NICK $self->{nick}");
@@ -181,6 +171,16 @@ sub _parent {
                         $self->note("<<< NICK $self->{nick}\r\n");
                     }
                     $session->{user} = 1;
+                }
+                if ( $line =~ /^ERROR.+onnect\w+ too fast/ ) {
+                    warn "$line\n";
+                    warn "Sleeping 20 and retrying...\n";
+                    sleep 20;
+                    $device->daemon->do_restart;
+                }
+                elsif ( $line =~ /^ERROR\s/ ) {
+                    warn "$line\n";
+                    $device->daemon->do_stop;
                 }
                 elsif ( $line =~ /^:\S+\s433\s/ ) {
                     $self->nick( $self->{nick} . '_' );
