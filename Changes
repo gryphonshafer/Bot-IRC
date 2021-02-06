@@ -1,6 +1,7 @@
 Revision history for Bot::IRC
 
 {{$NEXT}}
+        - Eval 001 regardless of return location
 
 1.33      2021-02-04 14:42:22-08:00 America/Los_Angeles
         - Pre-support for exact v1.15 try implementation switch
