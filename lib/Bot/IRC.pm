@@ -587,12 +587,7 @@ sub reply_to {
 
 sub msg {
     my ( $self, $target, $message ) = @_;
-    if ($message =~ /^\/me\s+/) {
-       $message =~ s/^\/me\s+//;
-       $self->say("PRIVMSG $target :\001ACTION $message\001");
-    } else {
-       $self->say("PRIVMSG $target :$message");
-    }
+    $self->say( "PRIVMSG $target :" . ( ( $message =~ s/^\/me\s+// ) ? "\001ACTION $message\001" : $message ) );
     return $self;
 }
 
