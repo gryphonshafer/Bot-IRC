@@ -6,6 +6,8 @@ use exact;
 
 use Daemon::Device;
 use Date::Format 'time2str';
+use Encode 'decode';
+use Encode::Detect::Detector 'detect';
 use IO::Socket::IP -register;
 use IO::Socket::SSL;
 use Time::Crontab;
@@ -20,7 +22,8 @@ sub new {
     croak('connect/server not provided to new()')
         unless ( ref $self->{connect} eq 'HASH' and $self->{connect}{server} );
 
-    $self->{spawn} ||= 2;
+    $self->{spawn}    ||= 2;
+    $self->{encoding} //= 'UTF-8';
 
     $self->{connect}{nick} //= 'bot';
     $self->{connect}{name} //= 'Yet Another IRC Bot';
@@ -63,6 +66,13 @@ sub run {
         Type            => SOCK_STREAM,
         SSL_verify_mode => SSL_VERIFY_NONE,
     ) or die $!;
+
+    if ( $self->{encoding} ) {
+        try {
+            binmode( $self->{socket}, "encoding($self->{encoding})" );
+        }
+        catch {};
+    }
 
     if ( $self->{send_user_nick} eq 'on_connect' ) {
         $self->{socket}->print("USER $self->{nick} 0 * :$self->{connect}{name}\r\n");
@@ -233,6 +243,11 @@ sub _on_message {
     my $passwd = $device->data('passwd');
 
     for my $line (@_) {
+        if ( $self->{encoding} ) {
+            my $charset = detect($line);
+            $line = decode( $charset => $line ) if ( $charset and $charset eq $self->{encoding} );
+        }
+
         if ( $line =~ /^>>>\sNICK\s(.*)/ ) {
             $self->{nick} = $1;
             next;
@@ -810,6 +825,12 @@ C<join> can be either a string or an arrayref of strings representing channels
 to join after connnecting. C<ssl> is a true/false setting for whether to
 connect to the server over SSL. C<ipv6> is also true/false setting for whether
 to forcibly connect to the server over IPv6.
+
+You can optionally also provide an C<encoding> string representing a strict name
+of an encoding standard. If you don't set this, it will default to "UTF-8"
+internally. The encoding string is used to set the binmode for log files and for
+message text decoding as necessary. If you want to turn off this functionality,
+set C<encoding> to any defined false value.
 
 Read more about plugins below for more information about C<plugins> and C<vars>.
 Consult L<Daemon::Device> and L<Daemon::Control> for more details about C<spawn>
