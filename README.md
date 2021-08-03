@@ -4,7 +4,7 @@ Bot::IRC - Yet Another IRC Bot
 
 # VERSION
 
-version 1.35
+version 1.36
 
 [![test](https://github.com/gryphonshafer/Bot-IRC/workflows/test/badge.svg)](https://github.com/gryphonshafer/Bot-IRC/actions?query=workflow%3Atest)
 [![codecov](https://codecov.io/gh/gryphonshafer/Bot-IRC/graph/badge.svg)](https://codecov.io/gh/gryphonshafer/Bot-IRC)
@@ -141,6 +141,12 @@ set or added to through other methods off the instantiated object.
 to join after connnecting. `ssl` is a true/false setting for whether to
 connect to the server over SSL. `ipv6` is also true/false setting for whether
 to forcibly connect to the server over IPv6.
+
+You can optionally also provide an `encoding` string representing a strict name
+of an encoding standard. If you don't set this, it will default to "UTF-8"
+internally. The encoding string is used to set the binmode for log files and for
+message text decoding as necessary. If you want to turn off this functionality,
+set `encoding` to any defined false value.
 
 Read more about plugins below for more information about `plugins` and `vars`.
 Consult [Daemon::Device](https://metacpan.org/pod/Daemon%3A%3ADevice) and [Daemon::Control](https://metacpan.org/pod/Daemon%3A%3AControl) for more details about `spawn`
