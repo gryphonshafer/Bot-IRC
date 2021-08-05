@@ -4,7 +4,7 @@ Bot::IRC - Yet Another IRC Bot
 
 # VERSION
 
-version 1.36
+version 1.37
 
 [![test](https://github.com/gryphonshafer/Bot-IRC/workflows/test/badge.svg)](https://github.com/gryphonshafer/Bot-IRC/actions?query=workflow%3Atest)
 [![codecov](https://codecov.io/gh/gryphonshafer/Bot-IRC/graph/badge.svg)](https://codecov.io/gh/gryphonshafer/Bot-IRC)
@@ -594,6 +594,12 @@ use `note`:
     $bot->note('Message');           # writes a message to the log file
     $bot->note( 'Message', 'warn' ); # writes a message to the error file
     $bot->note( 'Message', 'die' );  # writes a message to the error file the dies
+
+## numerics
+
+This method will return an arrayref of scalar strings, each an IRC numeric line
+from the server. The arrayref is limited to the first 100 numerics from the
+server.
 
 # SEE ALSO
 
