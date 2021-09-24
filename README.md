@@ -4,7 +4,7 @@ Bot::IRC - Yet Another IRC Bot
 
 # VERSION
 
-version 1.37
+version 1.38
 
 [![test](https://github.com/gryphonshafer/Bot-IRC/workflows/test/badge.svg)](https://github.com/gryphonshafer/Bot-IRC/actions?query=workflow%3Atest)
 [![codecov](https://codecov.io/gh/gryphonshafer/Bot-IRC/graph/badge.svg)](https://codecov.io/gh/gryphonshafer/Bot-IRC)
@@ -162,6 +162,13 @@ server, prior to the parent runtime loop and prior to children creation.
 prior to any responses from the IRC server. `on_reply` (the only option in
 versions <= 1.23 of this module) sends the 2 commands after the IRC server
 replies with some sort of content after connection.
+
+If you provide a `disconnect` value as a reference to a subroutine, it will be
+called when the bot is disconnected from a host. It's important to keep in mind
+that this code is run from within the parent of the daemon, not your program, so
+it's context will be different. The intent of this bot's design is to run as a
+service, not a program. This hook is provided so the parent process can  send a
+signal to something that might want to take action.
 
 ## run
 

@@ -29,6 +29,8 @@ sub new {
     $self->{connect}{name} //= 'Yet Another IRC Bot';
     $self->{connect}{port} ||= 6667;
 
+    $self->{disconnect} //= sub {};
+
     $self->{daemon}           //= {};
     $self->{daemon}{name}     //= $self->{connect}{nick};
     $self->{daemon}{pid_file} //= $self->{daemon}{name} . '.pid';
@@ -235,8 +237,10 @@ sub _parent {
     catch {
         my $e = $_ || $@;
         warn "Daemon parent loop failure: $e\n";
-        kill( 'KILL', $_ ) for ( @{ $device->children } );
     };
+
+    kill( 'KILL', $_ ) for ( @{ $device->children } );
+    $self->{disconnect}->($self) if ( ref $self->{disconnect} eq 'CODE' );
 }
 
 sub _child {
@@ -864,6 +868,13 @@ C<on_parent> (the default) sends the 2 commands within the parent runtime loop
 prior to any responses from the IRC server. C<on_reply> (the only option in
 versions <= 1.23 of this module) sends the 2 commands after the IRC server
 replies with some sort of content after connection.
+
+If you provide a C<disconnect> value as a reference to a subroutine, it will be
+called when the bot is disconnected from a host. It's important to keep in mind
+that this code is run from within the parent of the daemon, not your program, so
+it's context will be different. The intent of this bot's design is to run as a
+service, not a program. This hook is provided so the parent process can  send a
+signal to something that might want to take action.
 
 =head2 run
 
