@@ -17,8 +17,6 @@ jobs:
         with:
           sudo: false
           args: --with-develop --with-all-features --installdeps .
-          install: |
-            Devel::Cover::Report::Codecov
       - run: HARNESS_PERL_SWITCHES=-MDevel::Cover prove --recurse --lib --failures --jobs 4 --timer t
       - run: cover -report codecov
         env:
