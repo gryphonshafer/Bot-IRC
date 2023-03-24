@@ -1,24 +1,3 @@
-# Local Files
-local/
-
-# Temporary Files
-*.tmp
-
-# Archives
-*.gz
-*.tar
-*.tgz
-*.zip
-
-# MacOS
-.DS_Store
-
-# Sublime Projects
-*.sublime-project
-*.sublime-workspace
-
-#-------------------------------------------------------------------------------
-
 # Prove
 .prove
 
@@ -29,28 +8,7 @@ cover_db/
 nytprof/
 nytprof.out
 
-#-------------------------------------------------------------------------------
-
-# GitHub Actions
-/src/
-
-#-------------------------------------------------------------------------------
-
 # Dizt::Zilla
+Makefile.PL
+*.gz
 /.build/
-
-# Module::Build
-_build/
-Build
-Build.bat
-
-# Module::Install
-inc/
-
-# ExtUitls::MakeMaker
-/blib/
-/_eumm/
-/Makefile
-/Makefile.old
-/MANIFEST.bak
-/pm_to_blib
