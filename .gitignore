@@ -9,6 +9,5 @@ nytprof/
 nytprof.out
 
 # Dizt::Zilla
-Makefile.PL
 *.gz
 /.build/
