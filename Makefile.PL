@@ -52,8 +52,7 @@ my %WriteMakefileArgs = (
     "Test::Output" => 0,
     "exact::class" => "1.10"
   },
-  "VERSION" => "1.39
-versions <= 1.23 of this module) sends the 2 commands after the IRC server",
+  "VERSION" => "1.40",
   "test" => {
     "TESTS" => "t/*.t"
   }

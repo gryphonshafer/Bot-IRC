@@ -74,7 +74,7 @@ sub run {
         try {
             binmode( $self->{socket}, "encoding($self->{encoding})" );
         }
-        catch {};
+        catch ($e) {}
     }
 
     if ( $self->{send_user_nick} eq 'on_connect' ) {
@@ -96,10 +96,9 @@ sub run {
             },
         );
     }
-    catch {
-        my $e = $_ || $@;
+    catch ($e) {
         croak("Daemon device instantiation failure: $e");
-    };
+    }
 
     $self->{device}->run;
 }
@@ -151,10 +150,9 @@ sub _parent {
             try {
                 $_->{code}->($self);
             }
-            catch {
-                my $e = $_ || $@;
+            catch ($e) {
                 warn "Tick execution failure: $e\n";
-            };
+            }
         }
     };
 
@@ -234,10 +232,9 @@ sub _parent {
             push @lines, { line => $line, time => $now };
         }
     }
-    catch {
-        my $e = $_ || $@;
+    catch ($e) {
         warn "Daemon parent loop failure: $e\n";
-    };
+    }
 
     kill( 'KILL', $_ ) for ( @{ $device->children } );
     $self->{disconnect}->($self) if ( ref $self->{disconnect} eq 'CODE' );
@@ -432,10 +429,9 @@ sub _on_message {
                     $captured_matches,
                 );
             }
-            catch {
-                my $e = $_ || $@;
+            catch ($e) {
                 warn "Plugin hook execution failure: $e\n";
-            };
+            }
 
             last if ($rv);
         }
@@ -538,9 +534,9 @@ sub helps {
     try {
         $self->{helps} = { %{ $self->{helps} }, @input };
     }
-    catch {
+    catch ($e) {
         $self->note('Plugin helps called but not properly implemented');
-    };
+    }
 
     return $self;
 }
