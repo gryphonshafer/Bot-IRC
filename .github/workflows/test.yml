@@ -6,7 +6,7 @@ jobs:
         strategy:
             fail-fast: false
             matrix:
-                perl-version: [ devel, 40, 38, 36, 34, 32, 30, 28, 26, 24, 22, 18, 16, 14 ]
+                perl-version: [ 40, 38, 36, 34, 32, 30, 28, 26, 24, 22, 18, 16, 14 ]
         container:
             image: |-
                 perldocker/perl-tester:${{
@@ -31,4 +31,4 @@ jobs:
               with: { sudo: false, args: . }
             - run: prove --recurse --lib --failures --jobs 4 --timer t
             - run: cover -report codecov
-              if: env.CODECOV_TOKEN != null && ( matrix.perl-version == 'devel' || matrix.perl-version >= 26 )
+              if: env.CODECOV_TOKEN != null && matrix.perl-version >= 26
