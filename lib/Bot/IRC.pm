@@ -1,7 +1,7 @@
 package Bot::IRC;
 # ABSTRACT: Yet Another IRC Bot
 
-use 5.014;
+use 5.016;
 use exact;
 
 use Daemon::Device;
