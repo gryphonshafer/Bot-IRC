@@ -1,6 +1,8 @@
 Revision history for Bot::IRC
 
 {{$NEXT}}
+
+1.45      2026-01-14 16:37:35-08:00 America/Los_Angeles
         - Move dbh creation to children instead of at init
 
 1.44      2026-01-02 15:53:36-08:00 America/Los_Angeles
