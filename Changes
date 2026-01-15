@@ -1,6 +1,7 @@
 Revision history for Bot::IRC
 
 {{$NEXT}}
+        - Removed debug lines in past release because I was an idiot
 
 1.45      2026-01-14 16:37:35-08:00 America/Los_Angeles
         - Move dbh creation to children instead of at init

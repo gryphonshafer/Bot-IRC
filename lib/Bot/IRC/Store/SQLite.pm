@@ -76,7 +76,6 @@ sub get {
     my $value;
 
     $self->{dbh} //= $self->_dbh;
-    warn $self->{dbh}, "\n";
 
     try {
         my $sth = $self->{dbh}->prepare_cached(q{
@@ -103,7 +102,6 @@ sub set {
     my $namespace = ( caller() )[0];
 
     $self->{dbh} //= $self->_dbh;
-    warn $self->{dbh}, "\n";
 
     try {
         $self->{dbh}->begin_work;
@@ -121,7 +119,6 @@ sub set {
         ) or die $self->{dbh}->errstr;
 
         $self->{dbh}->commit;
-        # $self->{dbh}->do('PRAGMA wal_checkpoint(FULL)') or die $self->{dbh}->errstr;
     }
     catch ($e) {
         $self->{dbh}->rollback;
