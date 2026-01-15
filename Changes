@@ -1,6 +1,7 @@
 Revision history for Bot::IRC
 
 {{$NEXT}}
+        - Move dbh creation to children instead of at init
 
 1.44      2026-01-02 15:53:36-08:00 America/Los_Angeles
         - Set minimum Perl version to 5.16
