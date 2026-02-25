@@ -20,9 +20,11 @@ sub init {
 
 sub new {
     my ( $class, $bot ) = @_;
-    my $self = bless( {}, $class );
 
-    $self->{file} = $bot->vars('store') || 'store.sqlite';
+    my $conf = $bot->vars('store') || 'store.sqlite';
+    $conf = { file => $conf } unless ( ref $conf eq 'HASH' );
+
+    my $self = bless( $conf, $class );
     $self->{json} = JSON::XS->new->ascii;
 
     return $self;
@@ -46,16 +48,20 @@ sub _dbh {
                 # 4 = DBD_SQLITE_STRING_MODE_UNICODE_NAIVE
                 # 5 = DBD_SQLITE_STRING_MODE_UNICODE_FALLBACK
                 # 6 = DBD_SQLITE_STRING_MODE_UNICODE_STRICT
+            %{ $self->{attr} // {} },
         },
     ) or die "$@\n";
 
-    $dbh->do("PRAGMA $_->[0] = $_->[1]") for (
-        [ encoding           => '"UTF-8"'  ],
-        [ foreign_keys       => 'ON'       ],
-        [ journal_mode       => 'WAL'      ],
-        [ recursive_triggers => 'ON'       ],
-        [ temp_store         => 'MEMORY'   ],
-    );
+    my $pragma = {
+        encoding           => '"UTF-8"',
+        foreign_keys       => 'ON',
+        journal_mode       => 'DELETE',
+        recursive_triggers => 'ON',
+        synchronous        => 'FULL',
+        temp_store         => 'MEMORY',
+        %{ $self->{pragma} // {} },
+    };
+    $dbh->do( 'PRAGMA ' . $_ . ' = ' . $pragma->{$_} ) for ( keys %$pragma );
 
     $dbh->do(q{
         CREATE TABLE IF NOT EXISTS bot_store (
@@ -139,14 +145,34 @@ __END__
     Bot::IRC->new(
         connect => { server => 'irc.perl.org' },
         plugins => ['Store::SQLite'],
-        vars    => { store => 'bot.sqlite' },
+        vars    => {
+            store => {
+                file => 'store.sqlite',
+                attr => {
+                    PrintError                   => 0,
+                    RaiseError                   => 1,
+                    sqlite_see_if_its_a_number   => 1,
+                    sqlite_defensive             => 1,
+                    sqlite_extended_result_codes => 1,
+                    sqlite_string_mode           => 6,
+                },
+                pragma => {
+                    encoding           => '"UTF-8"',
+                    foreign_keys       => 'ON',
+                    journal_mode       => 'DELETE',
+                    recursive_triggers => 'ON',
+                    synchronous        => 'FULL',
+                    temp_store         => 'MEMORY',
+                },
+            },
+        },
     )->run;
 
 =head1 DESCRIPTION
 
 This L<Bot::IRC> plugin provides a persistent storage mechanism with a SQLite
 database file. By default, it's the "store.sqlite" file, but this can be changed
-with the C<vars>, C<store> value.
+with the C<vars>, C<store> value (as in the above synopsis).
 
 =head1 EXAMPLE USE
 
