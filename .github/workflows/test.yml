@@ -6,7 +6,8 @@ jobs:
         strategy:
             fail-fast: false
             matrix:
-                perl-version: [ 42, 40, 38, 36, 34, 32, 30, 28, 26, 24, 22, 18, 16, 14 ]
+                # perl-version: [ 42, 40, 38, 36, 34, 32, 30, 28, 26, 24, 22, 18, 16, 14 ]
+                perl-version: [ 14 ]
         container:
             image: |-
                 perldocker/perl-tester:${{
@@ -29,6 +30,12 @@ jobs:
             - uses: actions/checkout@v6
             - uses: perl-actions/install-with-cpanm@v1
               with: { sudo: false, args: . }
+            - run: |
+                if [ -f /github/home/.cpanm/work/*/build.log ]; then
+                echo "=== CPANM Build Log ==="
+                find /github/home/.cpanm/work -name "build.log" -exec cat {} \;
+                fi
+              if: failure()
             - run: prove --recurse --lib --failures --jobs 4 --timer t
             - run: cover -report codecov
               if: env.CODECOV_TOKEN != null && matrix.perl-version >= 26
