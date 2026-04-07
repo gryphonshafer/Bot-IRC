@@ -2,7 +2,7 @@
 use strict;
 use warnings;
 
-use 5.016;
+use 5.014;
 
 use ExtUtils::MakeMaker;
 
@@ -14,7 +14,7 @@ my %WriteMakefileArgs = (
   },
   "DISTNAME" => "Bot-IRC",
   "LICENSE" => "artistic_2",
-  "MIN_PERL_VERSION" => "5.016",
+  "MIN_PERL_VERSION" => "5.014",
   "NAME" => "Bot::IRC",
   "PREREQ_PM" => {
     "DBD::SQLite" => 0,
