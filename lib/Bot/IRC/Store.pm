@@ -1,7 +1,7 @@
 package Bot::IRC::Store;
 # ABSTRACT: Bot::IRC persistent data storage with YAML
 
-use 5.014;
+use 5.016;
 use exact;
 
 use YAML::XS qw( LoadFile DumpFile );

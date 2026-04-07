@@ -1,7 +1,7 @@
 package Bot::IRC::Convert;
 # ABSTRACT: Bot::IRC convert units of amounts
 
-use 5.014;
+use 5.016;
 use exact -noutf8;
 
 use Math::Units 'convert';

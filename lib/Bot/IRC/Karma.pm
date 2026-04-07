@@ -1,7 +1,7 @@
 package Bot::IRC::Karma;
 # ABSTRACT: Bot::IRC track karma for things
 
-use 5.014;
+use 5.016;
 use exact;
 
 # VERSION

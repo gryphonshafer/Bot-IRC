@@ -1,7 +1,7 @@
 package Bot::IRC::Store::SQLite;
 # ABSTRACT: Bot::IRC persistent data storage with SQLite
 
-use 5.014;
+use 5.016;
 use exact;
 
 use DBI;
@@ -110,7 +110,7 @@ sub set {
     $self->{dbh} //= $self->_dbh;
 
     try {
-        # $self->{dbh}->begin_work;
+        $self->{dbh}->begin_work;
 
         $self->{dbh}->prepare_cached(q{
             DELETE FROM bot_store WHERE namespace = ? AND key = ?
@@ -124,10 +124,10 @@ sub set {
             $self->{json}->encode( { value => $value } ),
         ) or die $self->{dbh}->errstr;
 
-        # $self->{dbh}->commit;
+        $self->{dbh}->commit;
     }
     catch ($e) {
-        # $self->{dbh}->rollback;
+        $self->{dbh}->rollback;
         warn "Store set error with $namespace (likely an IRC::Store::SQLite issue); key = $key; error = $e\n";
     }
 

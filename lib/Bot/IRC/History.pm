@@ -1,7 +1,7 @@
 package Bot::IRC::History;
 # ABSTRACT: Bot::IRC selected channel history dumped to email
 
-use 5.014;
+use 5.016;
 use exact;
 
 use Date::Format 'time2str';
